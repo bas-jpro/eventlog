@@ -1,0 +1,40 @@
+# Noonpos Position Table
+# v1.0 JPRO 01/02/2006 Initial Release
+#
+
+CREATE TABLE noonpos (
+	id int unsigned not null auto_increment primary key,
+	datestamp datetime not null,
+	type enum ( 'science', 'transit' ) not null default 'science',
+	lat tinytext not null,
+	lon tinytext not null,
+	bearing_true int not null,
+	bearing_dist int not null,
+	bearing_relative_id int unsigned not null,
+	bridgelog_id int unsigned,
+	cmg tinytext,
+	dest1_id int unsigned,
+	eta1_date date,
+	eta1_time time,
+	eta1_spd tinytext,
+	dest2_id int unsigned,
+	eta2_date date,
+	eta2_time time,
+	eta2_spd tinytext,
+	distance tinytext,
+	total_distance tinytext,
+	steam_time tinytext,
+	total_steam_time tinytext,
+	avg_spd tinytext,
+	total_avg_spd tinytext,
+	wind_dir enum ('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'variable'),
+	wind_force int,
+	sea_state enum ('Slight', 'Moderate', 'Rough', 'Heavy'),
+	air_temp double,
+	sea_temp double,
+	pressure double,
+	tendancy enum ('Steady', 'Falling', 'Rising'),
+	remarks text,
+	timezone int not null default 0
+);
+

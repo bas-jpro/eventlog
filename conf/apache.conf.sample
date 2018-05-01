@@ -1,0 +1,73 @@
+# Event Logging System
+#
+
+<VirtualHost *>
+	ServerName eventlog.domain
+	ServerAdmin jpro@bas.ac.uk
+
+	DocumentRoot /data/web/webapps/eventlog/current/html
+
+	# Setup Perl library path
+	<Perl>
+		use lib '/data/web/webapps/eventlog/current/perl';
+	</Perl>
+
+	# Setup permissions
+	<Directory /data/web/webapps/eventlog/current/html/>
+		Require all granted
+	</Directory>
+
+	<Location /eventlog/analyst>
+		SetHandler perl-script
+		PerlHandler Apache::Controller
+
+		AuthType Basic
+		AuthName "Eventlogs"
+		AuthUserFile /data/web/webapps/eventlog/current/conf/htpasswd
+		require valid-user
+	</Location>
+
+	<Location /eventlog/science>
+		SetHandler perl-script
+		PerlHandler Apache::Controller
+
+		AuthType Basic
+		AuthName "Eventlogs"
+		AuthUserFile /data/web/webapps/eventlog/current/conf/htpasswd
+		require user bridge
+	</Location>
+
+	# Noon Position - viewing for guest
+	<Location /noonpos/guest>
+		SetHandler perl-script
+		PerlHandler Apache::Controller
+	</Location>
+
+	# Noon Position - editing
+	<Location /noonpos/bridge>
+		SetHandler perl-script
+		PerlHandler Apache::Controller
+
+		AuthType Basic
+		AuthName "Eventlogs"
+		AuthUserFile /data/web/webapps/eventlog/current/conf/htpasswd
+		require user bridge
+	</Location>
+
+	# Ships Op log - viewing for guest
+	<Location /shiplog/guest>
+		SetHandler perl-script
+		PerlHandler Apache::Controller
+	</Location>
+
+	# Ships Op log - editing
+	<Location /shiplog/admin>
+		SetHandler perl-script
+		PerlHandler Apache::Controller
+
+		AuthType Basic
+		AuthName "Eventlogs"
+		AuthUserFile /data/web/webapps/eventlog/current/conf/htpasswd
+		require user bridge pso
+	</Location>	
+</VirtualHost>

@@ -1,0 +1,14 @@
+# Sciencelog Table 
+# v1.0 JPR 24/12/2004
+#
+
+CREATE TABLE sciencelog (
+	lognum int not null auto_increment primary key,
+	owner tinytext not null,
+	title text not null,
+	name text not null,
+	pso text not null,
+	institute text not null,
+	start_date date not null,
+	end_date date not null
+);

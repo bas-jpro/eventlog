@@ -1,0 +1,396 @@
+<!-- Interface description file for JCR Noonpos -->
+<!-- JPRO 01/02/2006                            -->
+
+<config class="Noonpos">
+	<modules name="FormSetup.pm" />
+	<modules name="Noonpos.pm" />
+
+	<db>
+		<passwd>password</passwd>
+		<port></port>
+		<host>localhost</host>
+		<user>event</user>
+		<type>mysql</type>
+		<name>eventlog</name>
+	</db>
+
+	<css>noonpos.css</css>
+
+	<data>
+		<field name="id">
+			<type>string</type>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="datestamp">
+			<type>string</type>
+			
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="type">
+			<type>string</type>
+			<desc>Position report type</desc>
+
+			<setup>
+				<form>science</form>
+				<form>science_mandatory</form>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="bridgelog_id">
+			<type>list</type>
+			<desc>Associated Bridge Science Log</desc>
+
+			<setup>
+				<form>science</form>
+			</setup>
+		</field>
+
+		<field name="bearing_relative_id">
+			<type>dblist</type>
+			<desc>Bearing Relative To Location</desc>
+			
+			<database>eventlog</database>
+			<table>locations</table>
+
+			<setup>
+				<form>science</form>
+				<form>science_mandatory</form>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="lat">
+			<type>latlon_str</type>
+			<desc>Latitude</desc>
+
+			<dir>lat</dir>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="lon">
+			<type>latlon_str</type>
+			<desc>Longitude</desc>
+
+			<dir>lon</dir>
+
+			<setup>
+				<form>science</form>
+				<form>science_mandatory</form>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="bearing_true">
+			<type>string</type>
+			<desc>Bearing True</desc>
+
+			<setup>
+				<form>science</form>
+				<form>science_mandatory</form>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="bearing_dist">
+			<type>string</type>
+			<desc>Bearing Distance</desc>
+
+			<setup>
+				<form>science</form>
+				<form>science_mandatory</form>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="distance">
+			<type>string</type>
+			<desc>Day Run Distance</desc>
+
+			<setup>
+				<form>science</form>
+				<form>science_mandatory</form>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="total_distance">
+			<type>string</type>
+			<desc>Total Distance Run</desc>
+
+			<setup>
+				<form>science</form>
+				<form>science_mandatory</form>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="steam_time">
+			<type>string</type>
+			<desc>Steam Time</desc>
+
+			<setup>
+				<form>transit</form>
+				<form>science</form>
+			</setup>
+		</field>
+
+		<field name="total_steam_time">
+			<type>string</type>
+			<desc>Total Steam Time</desc>
+
+			<setup>
+				<form>transit</form>
+				<form>science</form>
+			</setup>
+		</field>
+	
+		<field name="avg_spd">
+			<type>string</type>
+			<desc>Average Speed</desc>
+
+			<setup>
+				<form>transit</form>
+				<form>science</form>
+			</setup>
+		</field>
+
+		<field name="total_avg_spd">
+			<type>string</type>
+			<desc>Total Average Speed</desc>
+
+			<setup>
+				<form>transit</form>
+				<form>science</form>
+			</setup>
+		</field>
+
+		<field name="cmg">
+			<type>string</type>
+			<desc>Course Made Good</desc>
+
+			<setup>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="eta1_time">
+			<type>time</type>
+			<desc>ETA1 Time</desc>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="eta1_date">
+			<type>date</type>
+			<desc>ETA1 Date</desc>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="eta2_time">
+			<type>time</type>
+			<desc>ETA1 Time</desc>
+
+			<setup>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="eta2_date">
+			<type>date</type>
+			<desc>ETA2 Date</desc>
+
+			<setup>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="dest1_id">
+			<type>dblist</type>
+			<desc>ETA 1</desc>
+			
+			<database>eventlog</database>
+			<table>locations</table>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="dest2_id">
+			<type>dblist</type>
+			<desc>ETA 2</desc>
+			
+			<database>eventlog</database>
+			<table>locations</table>
+
+			<setup>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="eta1_spd">
+			<type>string</type>
+			<desc>ETA1 Speed</desc>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="eta2_spd">
+			<type>string</type>
+			<desc>ETA2 Speed</desc>
+
+			<setup>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="wind_force">
+			<type>range</type>
+			<desc>Wind Force</desc>
+
+			<start>0</start>
+			<end>12</end>
+			<interval>1</interval>
+			
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="wind_dir">
+			<type>dbenum</type>
+			<desc>Wind Direction</desc>
+
+			<database>eventlog</database>
+			<table>noonpos</table>
+			<field>wind_dir</field>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="sea_state">
+			<type>dbenum</type>
+			<desc>Sea State</desc>
+
+			<database>eventlog</database>
+			<table>noonpos</table>
+			<field>sea_state</field>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="air_temp">
+			<type>string</type>
+			<desc>Air Temperature</desc>
+			
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="sea_temp">
+			<type>string</type>
+			<desc>Sea Temperature</desc>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="pressure">
+			<type>string</type>
+			<desc>Pressure</desc>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="tendancy">
+			<type>dbenum</type>
+			<desc>Tendancy</desc>
+
+			<database>eventlog</database>
+			<table>noonpos</table>
+			<field>tendancy</field>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="remarks">
+			<type>string</type>
+			<desc>Remarks</desc>
+
+			<setup>
+				<form>science</form>
+				<form>transit</form>
+			</setup>
+		</field>
+
+		<field name="timezone">
+			<type>range</type>
+			<desc>Display Times Timezone</desc>
+
+			<start>-12</start>
+			<end>12</end>
+			<interval>1</interval>
+
+			<setup>
+				<form>science</form>
+				<form>science_mandatory</form>
+				<form>transit</form>
+				<form>transit_mandatory</form>
+			</setup>
+		</field>
+	</data>
+
+	<restrict>
+	</restrict>
+</config>
+

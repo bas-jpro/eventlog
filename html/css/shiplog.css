@@ -1,0 +1,392 @@
+/* Shiplog CSS Definitions */
+/* $Id$                    */
+
+html {
+	height: 100%;
+}
+
+body {
+	background: white;
+	font-family: arial, Helvetica, sans-serif;	
+	height: 95%;
+}
+
+#header {
+	height: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-size: 140%;
+
+/*	border: thin solid blue; */
+}
+
+.header-left {
+	float: left;
+	width: 30%;
+	text-align: left;
+}
+
+.header-center {
+	text-align: center;
+	display: inline-block;
+	width: 40%;
+}
+
+.header-right {
+	text-align: right;
+	float: right;
+	width: 30%;
+}
+
+#footer {
+	clear: both;
+	margin-left: auto;
+	margin-right: auto;
+/*	padding-top: 1em; */
+}
+
+#footer-edit {
+	float: left;
+	width: 49%;
+	text-align: left;
+}
+
+#footer-contact {
+	float: right;
+	width: 49%;
+	text-align: right;
+	font-size: 75%;
+}
+
+#content {
+	clear: both;
+	
+	height: 95%;
+	background: white;
+	margin-left: auto;
+	margin-right: auto;
+
+/*
+	padding-bottom: 1em;
+	padding-top:    1em;
+	border: thin solid black; 
+*/
+}
+
+#today, #tomorrow {
+	height: 20%;
+}
+
+#future {
+	height: 15%;
+}
+
+#general {
+	height: 10%;
+}
+
+#today, #tomorrow, #future, #general {
+	border-top: thin solid #2190c9;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+
+	width: 96%;
+	margin-left: auto;
+	margin-right: auto;
+
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
+#today legend, #tomorrow legend, #future legend, #general legend {
+	color: #2190c9;
+	font-size: 125%;
+}
+
+ul.events {
+	height: 90%;
+	width: 96%;
+	
+	-moz-column-count: 2;
+    -moz-column-gap: 20px;
+	-moz-column-fill: auto;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 20px;
+	-webkit-column-fill: auto;
+    column-count: 2;
+    column-gap: 20px;
+	column-fill: auto;
+
+	list-style-type: none;
+	margin-bottom: auto;
+	margin-top: auto;
+	padding: 0;
+}
+
+ul.events li {
+        margin-bottom: 5px;
+        overflow: hidden;
+        line-height: 1.2em;
+}
+
+ul.events li div {
+        display: inline-block;
+        max-width: 75%;
+        vertical-align: top;
+}
+
+.start_time {
+	width: 5em;
+	text-align: center;
+}
+
+#view_op {
+	width: 100%;
+	text-align: right;
+}
+
+#add-event fieldset {
+	color: #2190c9;
+	border-top: thin solid #2190c9;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+
+	margin-left: auto;
+	margin-right: auto;
+	width: 95%;
+	
+	margin-top: 0.5em;
+}
+
+#add-event legend {
+	font-size: 125%;
+}
+
+.config100 {
+	width: 100%;
+	padding-bottom: 1em;
+}
+
+.config10 {
+	width: 10%;
+	float: left;
+	padding-bottom: 1em;
+	margin-top: 0.5em;
+}
+
+.config25 {
+	width: 25%;
+	float: left;
+	padding-bottom: 1em;
+	margin-top: 0.5em;
+}
+
+.config65 {
+	width: 65%;
+	float: left;
+	padding-bottom: 1em;
+	margin-top: 0.5em;
+}
+
+.config75 {
+	width: 75%;
+	float: left;
+	padding-bottom: 1em;
+	margin-top: 0.5em;
+}
+
+.config10 span, .config10 label, .config25 span, .config100 span, .config25 label, .config65 span, .config65 label, .config75 span, .config75 label {
+	color: #2190c9;
+	font-weight: bold;
+	text-align: left;
+	width: 10em;
+}
+
+.config65 input {
+	color: #00476e;
+	border: 2px solid #ccdbe2;
+	width: 50em;
+}
+
+.config75 input {
+	color: #00476e;
+	border: 2px solid #ccdbe2;
+	width: 60em;
+}
+
+.config100 textarea {
+	color: #00476e;
+	border: 2px solid #ccdbe2;
+	width: 60em;
+}
+
+.config25 input {
+	color: #00476e;
+	border: 2px solid #ccdbe2;
+	width: 10em;
+}
+
+.config10 select {
+	color: #00476e;
+	width: 8em;
+}
+
+.reset {
+	clear: both;
+}
+
+.config-btn {
+	width: 100%;
+	float: left;
+}
+
+tr.config-btn {
+	margin-top: 0.5em;
+}
+
+.config-btn input {
+	color: #2190c9;
+    text-align: center;
+    width: 10em;	
+}
+
+#events {
+	padding-top: 2em;
+	width: 95%;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#events .start_date {
+	width: 15%;
+	text-align: center;
+}
+#events .desc {
+	width: 75%;
+}
+
+#events .del {
+	width: 5%;
+	text-align: center;
+}
+
+#events .dup {
+	width: 5%;
+	text-align: center;
+}
+
+#hdr1 {
+	background: #B0B0B0;
+}
+
+.science {
+	color: black;
+}
+
+.ship {
+	color: red;
+	font-weight: bold;
+}
+
+.leisure {
+	color: blue;
+	font-weight: bold;
+}
+
+.tz_change {
+	color: red;
+	font-size: 110%;
+}
+
+ul.general {
+	list-style-type: none;
+	padding: 0;
+}
+
+ul.general li {
+	white-space: pre;
+	text-align: left;
+}
+
+.even {
+	background: white;
+}
+
+.odd {
+	background: #D0D0D0;
+}
+
+#error {
+	width: 100%;
+	text-align: center;
+	color: red;
+	font-wieght: bold;
+	font-size: 110%;
+}
+
+.error {
+	color: red;
+}
+
+/* Tabs */
+
+ul#tabs {
+    list-style-type: none;
+    padding: 0;
+	margin-left: 2.5%;
+}
+
+ul#tabs li {
+    display: inline-block;
+    background-color: #32c896;
+    border-bottom: solid 5px #238b68;
+    padding: 5px 20px;
+    margin-bottom: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+ul#tabs li:hover {
+    background-color: #238b68;
+}
+
+ul#tabs li.active {
+    background-color: #238b68;
+}
+
+ul#tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul#tab li {
+    display: none;
+}
+
+ul#tab li.active {
+    display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 95%;
+}
+
+/* Must go at the end to work properly */
+
+a:link {
+	color: blue;
+	text-decoration: none;
+}
+
+a:visited {
+	color: blue;
+	text-decoration: none;
+}
+
+a:hover {
+	color: red;
+}

@@ -1,0 +1,12 @@
+# Eventlog Table 
+# v1.0 JPR 02/12/2003
+# v1.1 JPR 27/12/2004 Added sciencelog
+#
+
+CREATE TABLE eventlog (
+	lognum     int not null auto_increment primary key,
+	owner      tinytext not null,
+	name       tinytext not null,
+	sciencelog int not null default 0,
+	cols       text not null
+);

@@ -1,0 +1,221 @@
+/* Noonpos CSS Definitions */
+/* JPRO 01/02/2006         */
+
+body {
+	background: #ccccff;
+	font-family: arial, Helvetica, sans-serif;	
+}
+
+#header {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#date {
+	text-align: left;
+	font-size: 0.9em;
+	margin-top: 1em;
+	margin-bottom: 0.6em;
+
+	position: relative;
+}
+
+#postype {
+	text-align: right;
+
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+#postype input {
+	border: 1px solid black;
+	padding-top: -1px;
+	cursor: pointer;
+}
+
+#sel_active {
+	color: red;
+}
+
+#footer {
+	clear: both;
+
+	width: 800px;
+	text-align: left;
+	font-size: 0.75em;
+	margin-left: auto;
+	margin-right: auto;
+
+	padding-top: 1em;
+	border-top: 2px groove white;
+}
+
+#content {
+	width: 800px;
+	border-top: 2px groove white;
+	background: #ccccff;
+	margin-left: auto;
+	margin-right: auto;
+
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+#content a, #postype a {
+	color: blue;
+	text-decoration: none;
+}
+
+#content a:hover, #postype a:hover { 
+	color: red; 
+	text-decoration: none; 
+}
+
+#hdr_time {
+	margin-left: 3em;
+}
+
+#edit-link {
+	text-align: right;
+	width: 20em;
+	float: right;
+}
+
+#edit-link input {
+	border: 1px solid black;
+	padding-top: -1px;
+	cursor: pointer;
+}
+
+.spacer {
+	clear: both;
+	height: 0.75em;
+}
+
+.row {
+	width: 800px;
+	line-height: 175%;
+}
+
+.row input {
+	margin-right: 2px;
+}
+
+.pos-block {
+	width: 265px;
+	float: left;
+}
+
+.ts-block {
+	width: 200px;
+	float: left;
+}
+
+.eta-block0 {
+	float: left;
+	width: 100px;
+}
+
+.eta-block1 {
+	float: left;
+	width: 250px;
+}
+
+.eta-block2 {
+	float: left;
+	width: 250px;
+}
+
+.eta-block3 {
+	float: left;
+	width: 100px;
+}
+
+.wx-block0 {
+	float: left;
+	width: 100px;
+}
+
+.wx-block1 {
+	float: left;
+	width: 175px;
+}
+
+.rem-block0 {
+	float: left;
+	width: 100px;
+}
+
+.rem-block1 {
+	float: left;
+	width: 700px;
+}
+
+.right {
+	padding-right: 1em;
+	text-align: right;
+}
+
+.error {
+	color: red;
+}
+
+.error input {
+	background: red;
+	color: white;
+}
+
+.error-message {
+	color: red;
+	margin-bottom: 1em;
+	border-bottom: 2px groove white;
+}
+
+#showpos {
+	margin-top: 1em;
+}
+
+#showpos table {
+	background: white;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.even {
+	background: #dddddd;
+}
+
+.odd {
+	background: white;
+}
+
+.remarks {
+	white-space: pre;
+}
+
+#nextprev {
+	float: left;
+	width: 20em;
+}
+
+#overwrite {
+	color: red;
+	text-align: center;
+	border-bottom: 2px groove white;
+	margin-bottom: 1em;
+}
+
+.loc {
+	width: 32%;
+	float: left;
+	text-align: left;
+}
+
+#loc-form {
+	clear: both;
+	padding-top: 2em;
+	text-align: center;
+}

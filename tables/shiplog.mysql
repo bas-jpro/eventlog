@@ -1,0 +1,13 @@
+# ShipLog Events Table
+# $Id$
+#
+
+CREATE TABLE shiplog (
+	id int unsigned not null auto_increment primary key,
+	type enum ( 'event', 'general', 'tz_change' ) not null default 'event',
+	start_time datetime,
+	description text not null,
+	gmt_time datetime,
+	event_type enum ( 'science', 'ship', 'leisure' ) not null default 'science',
+);
+

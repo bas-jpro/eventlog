@@ -1,0 +1,8 @@
+# Bridgelog -> Noon Pos Transfer table
+# v1.0 JPRO 04/02/2006
+#
+
+CREATE TABLE xfer (
+	lognum int unsigned not null,
+	ids text not null
+);

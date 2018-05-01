@@ -1,0 +1,10 @@
+# JCR Noonpos Location Table
+# v1.0 JPRO 01/02/2006
+#
+
+CREATE TABLE locations (
+	id int unsigned not null auto_increment primary key,
+	value int unsigned not null,
+	description tinytext not null default ''
+);
+

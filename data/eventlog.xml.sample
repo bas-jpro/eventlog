@@ -1,0 +1,173 @@
+<!-- Interface description file for JCR Eventlog -->
+<!-- JPRO 26/01/2006                             -->
+
+<config class="Eventlog">
+	<modules name="FormSetup.pm" />
+	<modules name="Eventlog.pm" />
+
+	<db>
+		<passwd>password</passwd>
+		<port></port>
+		<host>localhost</host>
+		<user>event</user>
+		<type>mysql</type>
+		<name>eventlog</name>
+	</db>
+
+	<css>eventlog.css</css>
+
+	<data>
+		<field name="title">
+			<type>string</type>
+			<desc>Cruise Title</desc>
+			
+			<setup>
+				<form>new_sciencelog</form>
+				<form>new_sciencelog_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="name">
+			<type>string</type>
+			<desc>Cruise Name</desc>
+
+			<setup>
+				<form>new_sciencelog</form>
+				<form>new_sciencelog_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="pso">
+			<type>string</type>
+			<desc>Principal Scientific Officer(s)</desc>
+			
+			<setup>
+				<form>new_sciencelog</form>
+				<form>new_sciencelog_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="institute">
+			<type>string</type>
+			<desc>Institution</desc>
+
+			<setup>
+				<form>new_sciencelog</form>
+				<form>new_sciencelog_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="start_date">
+			<type>date</type>
+			<desc>Science log start date</desc>
+			
+			<setup>
+				<form>new_sciencelog</form>
+				<form>new_sciencelog_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="end_date">
+			<type>date</type>
+			<desc>Science log end date</desc>
+
+			<setup>
+				<form>new_sciencelog</form>
+				<form>new_sciencelog_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="time">
+			<type>datetime</type>
+			<desc>Event Time</desc>
+
+			<setup>
+				<form>new_event</form>
+				<form>new_event_mandatory</form>
+				<form>new_science_event</form>
+				<form>new_science_event_mandatory</form>
+				<form>modify_science_rec</form>
+				<form>modify_science_rec_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="event_no">
+			<type>number</type>
+			<desc>Event Number</desc>
+
+			<default></default>
+			
+			<setup>
+				<form>new_science_event</form>
+				<form>modify_science_rec</form>
+			</setup>
+		</field>
+
+		<field name="lat">
+			<type>string</type>
+			<desc>Latitude</desc>
+
+			<setup>
+				<form>new_science_event</form>
+				<form>modify_science_rec</form>
+			</setup>
+		</field>
+
+		<field name="lon">
+			<type>string</type>
+			<desc>Longitude</desc>
+
+			<setup>
+				<form>new_science_event</form>
+				<form>modify_science_rec</form>
+			</setup>
+		</field>
+
+		<field name="comment">
+			<type>string</type>		
+			<desc>Comment</desc>
+
+			<setup>
+				<form>new_science_event</form>
+				<form>modify_science_rec</form>
+			</setup>
+		</field>
+
+		<field name="lognum">
+			<type>number</type>
+			<desc>Log Number</desc>
+
+			<setup>
+				<form>new_science_event</form>
+				<form>new_science_event_mandatory</form>
+				<form>modify_science_rec</form>
+				<form>modify_science_rec_mandatory</form>
+			</setup>
+		</field>
+
+		<field name="id">
+			<type>number</type>
+			<desc>Record number</desc>
+
+			<setup>
+				<form>modify_science_rec</form>
+				<form>modify_science_rec_mandatory</form>
+			</setup>
+		</field>
+	</data>
+
+	<restrict>
+		<op name="new_science_event">
+			<level>science</level>
+		</op>
+
+		<op name="modify_science_rec">
+			<level>science</level>
+		</op>
+
+		<op name="new_sciencelog">
+			<level>science</level>
+		</op>
+	</restrict>
+</config>
+

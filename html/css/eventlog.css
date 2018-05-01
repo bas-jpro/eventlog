@@ -1,0 +1,344 @@
+/* EventLog CSS Definitions */
+/* v1.1 JPRO 26/12/2004     */
+
+body {
+	background: white;
+	font-family: arial, Helvetica, sans-serif;	
+}
+
+#sidebar {
+	position: absolute;	
+	top: 0;
+	left: 0;
+	bottom: 0%;
+	
+	margin: 0px;
+	padding: 0px;
+	padding-top: 0.5em;
+	width: 126px;	
+
+	font-size: larger;
+	text-align: right;
+
+	background: black;
+	color: white;
+}
+
+#sidebar span {
+	padding-right: 0.5em;
+}
+
+#sidebar div {
+	margin-top: 10em;
+	padding-left: 4px;
+	text-align: left;
+
+	border-top: thin solid white;
+	font-size: 0.65em;
+}
+
+#buttons {
+	border: thin solid black;
+	background: black;
+	color: white; 
+
+	padding: 0.3em;
+	padding-left: 1em;
+	font-size: larger;
+}
+
+#buttons span {
+	padding-right: 0.2em;
+	margin-right: 3em;
+}
+
+#sidebar a, #buttons span a {
+	color: white;
+	text-decoration: none;
+}
+
+#sidebar a:hover, #buttons a:hover {
+	color: red;
+	text-decoration: none;
+}
+
+#content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	margin-left: 126px;
+	background: white;
+}
+
+#content a {
+	color: blue;
+	text-decoration: none;
+}
+
+#content a:hover { 
+	color: red; 
+	text-decoration: none; 
+}
+
+#title {
+	margin-top: 0.5em;
+	text-align: center;
+	font-size: larger;
+}
+
+.list_tbl {
+	border: thin solid black;
+}
+
+.list_tr {
+	border-bottom: thin solid black;
+}
+
+table {
+	margin-top: 0.5em;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	width: 95%;
+}
+
+#hdr1 {
+	background: #D0D0D0;
+}
+
+#hdr1 th {
+	font-weight: normal;
+}
+
+#hdr2 {
+	background: #c0c0c0;
+}
+
+.event {
+	width: 70%;
+}
+
+td.event {
+	text-align: left;
+}
+
+.last_time {
+	width: 20%;
+}
+
+.owner {
+	width: 10%;
+}
+
+td.owner {
+	font-style: italic;
+}
+
+.cruise {
+	width: 15%;
+}
+
+td.cruise {
+	text-align: left;
+}
+
+.date {
+	width: 10%;
+}
+
+.pso {
+	width: 25%;
+}
+
+.institute {
+	width: 10%;
+}
+
+td.sciencecom {
+	text-align: left;
+	padding-left: 2px;
+}
+
+th.comment {
+	text-align: center;
+}
+
+td.comment {
+	white-space: pre;
+}
+
+.sciencecol {
+	width: 10%;
+}
+
+.error {
+	color: red;
+}
+
+.error-message {
+	color: red;
+	margin: 1em;
+	border-bottom: thin solid black;
+}
+
+.time_info {
+	font-style: italic;
+    font-size: 0.75em;
+}
+
+.user {
+	width: 8%;
+}
+
+td.user {
+	font-style: italic;
+}
+
+.mark {
+	width: 5%;
+}
+
+#mark-button {
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: right;		
+}
+
+#mark-button input {
+	border: 1px solid black;
+	cursor: pointer;
+}
+
+.dup {
+	width: 8%;
+}
+
+.rec-comment {
+	padding-left: 2px;
+	text-align: left;
+	white-space: pre;
+}
+
+.even {
+	background: white;
+}
+
+.odd {
+	background: #d3d3d3; 
+}
+
+#entry-form {
+	margin-top: 2em;
+}
+
+.edit-row {
+	position: relative;
+	text-align: left;
+	margin-bottom: 0.25em;
+}
+
+.edit-row div {
+	font-weight: bold;
+	float: left;
+	text-align: right;
+	width: 10em;
+	padding-right: 2em;
+}
+
+.edit-row-input {
+	position: relative;
+	top: -2px;
+
+	width: 40em;
+}
+
+.edit-row-select {
+	position: relative;
+	top: -2px;
+
+	width: 40.5em;
+}
+
+.edit-row-submit {
+	position: relative;
+	top: -2px;
+
+	margin-left: 0em;
+	margin-top: 1em;
+	text-align: left;
+}
+
+.edit-date {
+	border: thin solid red;
+	clear: both;
+}
+
+.log-col {
+	float: left;
+	width: 22em;
+	margin: 0.5em;
+	margin-left: 1em;
+	padding: 0em;
+}
+
+.col-title {
+	text-align: center;
+	padding-bottom: 4px;
+}
+
+.log-col-row {
+	width: 22em;
+}
+
+.log-col-row select {
+	width: 11.75em;
+}
+
+.log-col-row div {
+	float: left;
+	text-align: right;
+	margin-right: 1em;
+	width: 10em;
+}
+
+.chkbox {
+	padding-left: 0px;
+	margin-left: 0px;
+}
+
+.reset {
+	clear: both;
+}
+
+.row {
+	margin: 0.5em;
+	margin-left: 2em;
+}
+
+.row-text {
+	float: left;
+	text-align: right;
+	margin-right: 1em;
+	width: 14em;
+}
+
+.row-input {
+}
+
+.row-buttons {
+	margin-left: 15em;
+}
+
+.spacer {
+	height: 1em;
+}
+
+.eventlog-note {
+	margin-left: 1em;
+	margin-top: 2em;
+}
+

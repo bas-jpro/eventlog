@@ -1,0 +1,128 @@
+<!-- Interface description file for JCR Ship Operation Log -->
+<!-- $Id$                                                  -->
+
+<config class="ShipLog">
+	<modules name="FormSetup.pm" />
+	<modules name="ShipLog.pm" />
+
+	<db>
+		<passwd>password</passwd>
+		<port></port>
+		<host>localhost</host>
+		<user>event</user>
+		<type>mysql</type>
+		<name>eventlog</name>
+	</db>
+
+	<css>shiplog.css</css>
+
+	<data>
+	  <field name="id">
+		<type>string</type>
+		<desc>Event ID</desc>
+
+		<setup>
+		  <form>add_tz</form>
+		  <form>add</form>
+		  <form>add_general</form>
+		</setup>
+	  </field>
+	  
+	  <field name="type">
+		<type>enum</type>
+		<desc>Event type</desc>
+
+		<value>event</value>
+		<value>general</value>
+		<value>tz_change</value>
+
+		<setup>
+		  <form>add_tz</form>
+		  <form>add_tz_mandatory</form>
+		  <form>add</form>
+		  <form>add_mandatory</form>
+		  <form>add_general</form>
+		  <form>add_general_mandatory</form>
+		</setup>
+	  </field>
+
+	  <field name="start_time">
+		<type>string</type>
+		<desc>Event start time</desc>
+
+		<setup>
+		  <form>add</form>
+		  <form>add_mandatory</form>
+		</setup>
+	  </field>
+
+	  <field name="start_time_tz">
+		<type>string</type>
+		<desc>TZ Event start time</desc>
+
+		<setup>
+		  <form>add_tz</form>
+		  <form>add_tz_mandatory</form>
+		</setup>
+	  </field>
+
+	  <field name="description">
+		<type>string</type>
+		<desc>Event description</desc>
+
+		<setup>
+		  <form>add</form>
+		  <form>add_mandatory</form>
+		</setup>
+	  </field>
+
+	  <field name="description_general">
+		<type>string</type>
+		<desc>Event description</desc>
+
+		<setup>
+		  <form>add_general</form>
+		  <form>add_general_mandatory</form>
+		</setup>
+	  </field>
+
+	  <field name="event_type">
+	  	  <type>dbenum</type>
+		  <desc>Event type</desc>
+
+		  <database>eventlog</database>
+		  <table>shiplog</table>
+		  <field>event_type</field>
+		  
+		  <setup>
+			<form>add</form>
+			<form>add_mandatory</form>
+			<form>add_tz</form>
+			<form>add_tz_mandatory</form>
+			<form>add_general</form>
+			<form>add_general_mandatory</form>
+		  </setup>
+	  </field>
+	  
+	  <field name="gmt_offset">
+		<type>range</type>
+		<desc>TZ GMT Offset</desc>
+
+		<start>-12</start>
+		<end>12</end>
+		<interval>1</interval>
+		<default>-3</default>
+		
+		<setup>
+		  <form>add</form>
+		  <form>add_general</form>
+		  <form>add_tz</form>
+		  <form>add_tz_mandatory</form>
+		</setup>
+	  </field>
+	</data>
+
+	<restrict>
+	</restrict>
+</config>
+
