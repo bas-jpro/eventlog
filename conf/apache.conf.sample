@@ -1,7 +1,7 @@
 # Event Logging System
 #
 
-<VirtualHost *>
+<VirtualHost *:80>
 	ServerName eventlog.domain
 	ServerAdmin jpro@bas.ac.uk
 
