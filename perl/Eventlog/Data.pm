@@ -19,7 +19,7 @@ sub new {
 }
 
 sub connect_streams {
-	my ($self, $type) = shift;
+	my ($self, $type) = @_;
 	return undef unless $type;
 
 	require Eventlog::Data::$type;
