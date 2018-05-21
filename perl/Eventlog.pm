@@ -61,7 +61,7 @@ sub new {
 		db      => Apache::Controller::DB->new($config->{locals}->{db}->{name}, $config->{locals}->{db}),
 		user    => $config->{analyst},
 		state   => $config->{session},
-		data    => $data_class->new();,
+		data    => $data_class->new(),
 	}, $class;
 	
 	$eventlog->{log} = Eventlog::Log->new($eventlog->{db});
