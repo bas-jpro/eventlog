@@ -5,6 +5,7 @@
 #
 
 package Eventlog::Data::Full_NMEA;
+@ISA = qw(Eventlog::Data);
 use strict;
 
 use File::Basename;

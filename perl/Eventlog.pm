@@ -24,6 +24,7 @@ use Eventlog::Data;
 use Storable qw(dclone);
 use POSIX qw(strftime);
 use Time::Local;
+use Module::Load;
 
 use Data::Dumper;
 
@@ -52,14 +53,17 @@ sub sciencelog_buttons_setup { }
 sub new {
 	my ($class, $config) = @_;
 
+	my $data_class = "Eventlog::Data::$DEF_TYPE";
+	load $data_class;
+
 	my $eventlog = bless {
 		config  => $config,
 		db      => Apache::Controller::DB->new($config->{locals}->{db}->{name}, $config->{locals}->{db}),
 		user    => $config->{analyst},
 		state   => $config->{session},
-		data    => Eventlog::Data->new($DEF_TYPE),
+		data    => $data_class->new();,
 	}, $class;
-
+	
 	$eventlog->{log} = Eventlog::Log->new($eventlog->{db});
 
 	return $eventlog;
