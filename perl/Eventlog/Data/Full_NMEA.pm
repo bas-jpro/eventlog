@@ -51,15 +51,13 @@ sub new {
 	return $self;
 }
 
-# List streams 
-sub list {
+sub list_streams {
 	my $self = shift;
 
 	my @scs_streams = sort keys %STREAMS;
 	return \@scs_streams;
 }
 
-# Attach
 sub attach {
 	my ($self, $stream) = @_;
 	die basename($0) . ": Failed to attach $stream - no stream\n" unless $STREAMS{$stream};
