@@ -68,37 +68,56 @@ sub attach {
 
 	$self->{name} = $stream;
 
-	# Find oldest file to open
-	opendir(ND, $NMEA_DIR);
-	my @years = sort grep { /^\d{4}$/ && -d "$NMEA_DIR/$_" } readdir(ND);
-	closedir(ND);
-
-	$self->{year} = $years[0];
-	die basename($0) . ": Failed to attach $stream - no years\n" unless $self->{year};
-
-	# Open oldest year and file oldesk leg
-	opendir(ND, "$NMEA_DIR/$self->{year}");
-	my @legs = sort grep { /^\d{4}_LEG_\d+$/ && -d "$NMEA_DIR/$self->{year}/$_" } readdir(ND);
-	closedir(ND);
-
-	$self->{leg} = $legs[0];
-	die basename($0) . ": Failed to attach $stream - no leg\n" unless $self->{leg};
-
-	# Find oldest nmea file
-	opendir(ND, "$NMEA_DIR/$self->{year}/$self->{leg}");
-	my @nmeas = sort grep { /^nmea_\d{10}.log$/ } readdir(ND);
-	closedir(ND);
-
-	$self->{nmea} = $nmeas[0];
+	$self->_find_oldest_file();
 	die basename($0) . ": Failed to attached $stream - no file\n" unless $self->{nmea};
 
 	$self->{stream} = new IO::File "$NMEA_DIR/$self->{year}/$self->{leg}/$self->{nmea}", O_RDONLY ;
-
 	die basename($0). ": Failed to attach $stream\n" unless $self->{stream};
 
 	$self->{stream}->blocking(0);
-
+	
 	print STDERR "Opened $self->{nmea}, in $self->{leg} of $self->{year}\n";
+
+}
+
+sub _find_oldest_stream {
+	my $self = shift;
+	
+	# Get list of years
+	opendir(ND, $NMEA_DIR);
+	my @years = sort grep { /^\d{4}$/ && -d "$NMEA_DIR/$_" } readdir(ND);
+	closedir(ND);
+	die basename($0) . ": Failed to attach $self->{name} - no years\n" unless scalar(@years);
+
+	# Now go through looking for oldest nmea file and return once found
+	foreach my $y (@years) {
+		$self->{year} = $y;
+		
+		# Open oldest year and file oldest leg
+		opendir(ND, "$NMEA_DIR/$self->{year}");
+		my @legs = sort grep { /^\d{4}_LEG_\d+$/ && -d "$NMEA_DIR/$self->{year}/$_" } readdir(ND);
+		closedir(ND);
+		
+		next unless scalar(@legs);
+
+		foreach my $l (@legs) {
+			$self->{leg} = $l;
+			
+			# Find oldest nmea file
+			opendir(ND, "$NMEA_DIR/$self->{year}/$self->{leg}");
+			my @nmeas = sort grep { /^nmea_\d{10}.log$/ } readdir(ND);
+			closedir(ND);
+			
+			next unless scalar(@nmeas);
+
+			# Found a nmea file
+			$self->{nmea} = $nmeas[0];
+			return;
+		}
+	}
+
+	# Failed to find anything
+	$self->{nmea} = $self->{leg} = $self->{year} = undef;
 }
 
 
@@ -107,6 +126,7 @@ sub detach {
 	return unless $self->{stream};
 
 	$self->{stream} = undef;
+	$self->{name}   = undef;
 }
 
 sub name {
@@ -119,7 +139,7 @@ sub vars {
 	my $self = shift;
 	return undef unless $self->{stream};
 
-	return $STREAMS{$self->{stream}}->{vars};
+	return $STREAMS{$self->{name}}->{vars};
 }
 
 # Find record at time tstamp (in unix seconds)
