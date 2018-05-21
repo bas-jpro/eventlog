@@ -17,7 +17,7 @@ my %STREAMS = (
 		vars => [ { name => 'date',   units => 'YYMMDD' },
 				  { name => 'time',   units => 'HHMMSS' },
 				  { name => 'serial', units => '' },
-				  { mame => 'call',   units => '' },
+				  { name => 'call',   units => '' },
 				  { name => 'ws1',    units => 'knots' },
 				  { name => 'wd1',    units => 'deg true' },
 				  { name => 'rwd1',   units => 'deg rel' },
