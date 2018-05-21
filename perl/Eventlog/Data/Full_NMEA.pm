@@ -7,6 +7,8 @@
 package Eventlog::Data::Full_NMEA;
 use strict;
 
+use File::Basename;
+
 my $NMEA_DIR = '/data/Full_NMEA';
 my %STREAMS = (
 	'AAVOS' => { 
