@@ -50,7 +50,7 @@ sub new {
 		name   => undef,
 		year   => undef,
 		leg    => undef,
-		file   => undef,
+		nmea   => undef,
 	}, $class;
 
 	return $self;
@@ -92,13 +92,13 @@ sub attach {
 	$self->{nmea} = $nmeas[0];
 	die basename($0) . ": Failed to attached $stream - no file\n" unless $self->{nmea};
 
-	$self->{stream} = new IO::File "$NMEA_DIR/$self->{year}/$self->{leg}/$self->{file}", O_RDONLY ;
+	$self->{stream} = new IO::File "$NMEA_DIR/$self->{year}/$self->{leg}/$self->{nmea}", O_RDONLY ;
 
 	die basename($0). ": Failed to attach $stream\n" unless $self->{stream};
 
 	$self->{stream}->blocking(0);
 
-	print STDERR "Opened $self->{file}, in $self->{leg} of $self->{year}\n";
+	print STDERR "Opened $self->{nmea}, in $self->{leg} of $self->{year}\n";
 }
 
 
