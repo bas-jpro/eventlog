@@ -54,8 +54,7 @@ sub new {
 sub list_streams {
 	my $self = shift;
 
-	my @scs_streams = sort keys %STREAMS;
-	return \@scs_streams;
+	return sort keys %STREAMS;
 }
 
 sub attach {
