@@ -52,12 +52,36 @@ sub new {
 sub list {
 	my $self = shift;
 
-	my @scs_streams = ();
-	foreach my $k (sort keys %STREAMS) {
-		push(@scs_streams, { $STREAMS{$k} });
-	}
-
+	my @scs_streams = sort keys %STREAMS;
 	return \@scs_streams;
+}
+
+# Attach
+sub attach {
+	my ($self, $stream) = @_;
+	die basename($0) . ": Failed to attach $stream - no stream\n" unless $STREAMS{$stream};
+
+	$self->{stream} = $stream;
+}
+
+sub detach {
+	my $self = shift;
+	return unless $self->{stream};
+
+	$self->{stream} = undef;
+}
+
+sub name {
+	my $self = shift;
+
+	return $self->{stream};
+}
+
+sub vars {
+	my $self = shift;
+	return undef unless $self->{stream};
+
+	return $STREAMS{$self->{stream}}->{vars};
 }
 
 1;

@@ -40,5 +40,33 @@ sub list_streams {
 	return $self->{streams}->list();
 }
 
+sub attach {
+	my ($self, $stream) = @_;
+	return undef unless $self->{streams};
+
+	return $self->{streams}->attach($stream);
+}
+
+sub detach {
+	my $self = shift;
+	return undef unless $self->{streams};
+
+	return $self->{streams}->detach();
+}
+
+sub name {
+	my $self = shift;
+	return undef unless $self->{stream};
+
+	return $self->{stream}->name();
+}
+
+sub vars {
+	my $self = shift;
+	return undef unless $self->{stream};
+
+	return $self->{stream}->vars();
+}
+
 1;
 __END__

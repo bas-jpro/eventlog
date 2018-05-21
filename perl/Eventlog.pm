@@ -187,15 +187,15 @@ sub setup_streams {
 sub get_streams { 
 	my $eventlog = shift;
 
-	my @streams = $eventlog->{scs}->list_streams();
+	my @streams = $eventlog->{data}->list_streams();
 	my @scs_streams = ();
 
 	foreach (@streams) {
-		$eventlog->{scs}->attach($_);
+		$eventlog->{data}->attach($_);
 
-		push(@scs_streams, { stream => $eventlog->{scs}->{name}, vars => $eventlog->{scs}->vars() });
+		push(@scs_streams, { stream => $eventlog->{data}->name(), vars => $eventlog->{data}->vars() });
 
-		$eventlog->{scs}->detach();
+		$eventlog->{data}->detach();
 	}
 
 	my @ss = sort { $a->{stream} cmp $b->{stream} } @scs_streams;
