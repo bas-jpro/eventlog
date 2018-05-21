@@ -19,10 +19,7 @@ use strict;
 use Eventlog::Log;
 use Noonpos::Position;
 use Apache::Controller::DB;
-
-#use lib '/nerc/packages/scs/1.0/lib';
-use lib '/packages/scs/1.0/lib';
-use SCSUtil;
+use Eventlog::Data;
 
 use Storable qw(dclone);
 use POSIX qw(strftime);
@@ -36,6 +33,9 @@ my $BUILTIN    = 'Built In';
 my $GPS_STREAM = 'seatex-gll';
 my $GPS_LAT = 'seatex-gll-lat';
 my $GPS_LON = 'seatex-gll-lon';
+
+# Eventlog Default Type
+my $DEF_TYPE = 'Full_NMEA';
 
 # Dummy functions to prevent errors
 sub header_setup             { }
@@ -57,7 +57,7 @@ sub new {
 		db      => Apache::Controller::DB->new($config->{locals}->{db}->{name}, $config->{locals}->{db}),
 		user    => $config->{analyst},
 		state   => $config->{session},
-		scs     => SCSUtil->new(),
+		data    => Eventlog::Data->new($DEF_TYPE),
 	}, $class;
 
 	$eventlog->{log} = Eventlog::Log->new($eventlog->{db});
