@@ -580,11 +580,11 @@ sub new_event_setup {
 #		print STDERR "Duplicating from $dup_id, time: " . $vars->{time} . ", timestamp: " , $vars->{tstamp} . "\n";
 	}
 
-	# Get Values from SCS
+	# Get Values from Data Logging System
 	my $c = 0;
 	foreach my $v (@{ $vars->{cols} }) {
 		if ($v->{stream} ne $BUILTIN) {
-			$v->{default} = $eventlog->get_scs_val($v->{stream}, $v->{var}, $vars->{time}) || '';
+			$v->{default} = $eventlog->get_data_val($v->{stream}, $v->{var}, $vars->{time}) || '';
 		} else {
 			$v->{default} = $eventlog->{state}->{new_event}->{cols}->[$c] || '';
 #			$v->{default} = '';
@@ -618,31 +618,31 @@ sub new_event_setup {
 	return $vars;
 }
 
-# Get SCS Valure for given time/stream/variable
-sub get_scs_val {
+# Get Data Logging System Value for given time/stream/variable
+sub get_data_val {
 	my ($eventlog, $stream, $var, $tstamp) = @_;
 
-#	print STDERR "Getting [$stream], [$var], [$tstamp] - ";
+	print STDERR "Getting [$stream], [$var], [$tstamp] - ";
 	
-	eval { $eventlog->{scs}->attach($stream); } or return undef;
+	eval { $eventlog->{data}->attach($stream); } or return undef;
 
 	my $v = undef;
 
 	# Make sure time is within stream
 	# Make sure we are at start of stream
-	$eventlog->{scs}->find_time(0);
-	my $rec = $eventlog->{scs}->next_record();
+	$eventlog->{data}->find_time(0);
+	my $rec = $eventlog->{data}->next_record();
 	my $start_time = $rec->{timestamp};
 	
-	$rec = $eventlog->{scs}->last_record();
+	$rec = $eventlog->{data}->last_record();
 	my $end_time = $rec->{timestamp};
 	
 	# Don't do end time at moment - just pick last time
 	if ($tstamp >= $start_time) {
-		my ($var_pos) = $eventlog->{scs}->get_vars_pos($var);
+		my ($var_pos) = $eventlog->{data}->get_vars_pos($var);
 
-#		print STDERR "- Vars pos [$var_pos] - ";
-		$rec = $eventlog->{scs}->find_time($tstamp);
+		print STDERR "- Vars pos [$var_pos] - ";
+		$rec = $eventlog->{data}->find_time($tstamp);
 #		$rec = $eventlog->{scs}->next_record();
 		
 		$v = $rec->{vals}->[$var_pos];
@@ -650,9 +650,9 @@ sub get_scs_val {
 		$v = undef;
 	}
 
-#	print STDERR "- Found [" . ($v || 'undef') . "]\n";
+	print STDERR "- Found [" . ($v || 'undef') . "]\n";
 	
-	$eventlog->{scs}->detach();
+	$eventlog->{data}->detach();
 
 	return $v;
 }
