@@ -80,7 +80,7 @@ sub attach {
 
 }
 
-sub _find_oldest_stream {
+sub _find_oldest_file {
 	my $self = shift;
 	
 	# Get list of years
@@ -119,7 +119,6 @@ sub _find_oldest_stream {
 	# Failed to find anything
 	$self->{nmea} = $self->{leg} = $self->{year} = undef;
 }
-
 
 sub detach {
 	my $self = shift;
