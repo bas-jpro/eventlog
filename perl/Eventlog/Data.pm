@@ -6,11 +6,13 @@
 package Eventlog::Data;
 use strict;
 
+use Module::Load;
+
 sub new {
 	my ($class, $type) = @_;
 
 	my $self = bless {
-		streams = undef,
+		streams => undef,
 	}, $class;
 
 	$self->connect_streams($type);
@@ -22,9 +24,11 @@ sub connect_streams {
 	my ($self, $type) = @_;
 	return undef unless $type;
 
-	require Eventlog::Data::$type;
+	my $class = "Eventlog::Data::$type";
+	
+	load $class;
 
-	$self->{streams} = Eventlog::Data::$type->new();
+	$self->{streams} = $class->new();
 
 	return $self->{streams};
 }
