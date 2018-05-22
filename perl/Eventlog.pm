@@ -622,7 +622,7 @@ sub new_event_setup {
 sub get_data_val {
 	my ($eventlog, $stream, $var, $tstamp) = @_;
 
-	print STDERR "Getting [$stream], [$var], [$tstamp] - ";
+	print STDERR "Getting [$stream], [$var], [$tstamp] ";
 	
 	eval { $eventlog->{data}->attach($stream); } or return undef;
 
