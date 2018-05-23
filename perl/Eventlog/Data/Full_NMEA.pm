@@ -204,6 +204,27 @@ sub vars {
 	return $STREAMS{$self->{name}}->{vars};
 }
 
+# Return list of positions in @vals for each variable given
+sub get_vars_pos {
+	my ($self, @varnames) = @_;
+
+	my %var_lookup;
+	my $i = 0;
+	foreach (@{ $self->vars() }) {
+		$var_lookup{$_->{name}} = $i;
+		$i++;
+	}
+
+	my @ps;
+	foreach (@varnames) {
+		die basename($0) . ": $self->{name} attach failure, mismatch [$_]\n" if !defined($var_lookup{$_});
+
+		push(@ps, $var_lookup{$_});
+	}
+
+	return @ps;
+}
+
 # Find record at time tstamp (in unix seconds)
 # Use a binary search to find a given start time and set filepos
 # Based on version from book "Mastering Algorithms with Perl"

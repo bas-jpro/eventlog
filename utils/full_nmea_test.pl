@@ -10,6 +10,7 @@ use lib '/users/jpro/prog/bas/eventlog/perl';
 use Eventlog::Data::Full_NMEA;
 
 my $STREAM = 'AAVOS';
+my @VARS = qw(ws1 call rwd2);
 my $data   = Eventlog::Data::Full_NMEA->new();
 
 $data->attach($STREAM);
@@ -22,6 +23,12 @@ if ($rec && $rec->{timestamp}) {
 	print "Found record at $rec->{timestamp}\n";
 } else {
 	print "Could not find a record\n";
+}
+
+my @ps = $data->get_vars_pos(@VARS);
+
+for (my $i=0; $i<scalar(@VARS); $i++) {
+	print "Var: $VARS[$i], val: " . $rec->{vals}->[$ps[$i]] . "\n";
 }
 
 $data->detach();
