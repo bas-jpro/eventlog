@@ -205,6 +205,8 @@ sub vars {
 }
 
 # Find record at time tstamp (in unix seconds)
+# Use a binary search to find a given start time and set filepos
+# Based on version from book "Mastering Algorithms with Perl"
 sub find_time {
 	my ($self, $tstamp) = @_;
 
@@ -234,36 +236,69 @@ sub find_time {
 	# Time is current this file
 #	print STDERR "Time is in current file\n";
 
-	# Linear search for time
-	my $rec = $self->next_record();
-	my $prev_rec = undef;
+	my $fh = $self->{stream};
 	
-	while ($rec && ($rec->{timestamp} < $tstamp)) {
-		$prev_rec = $rec;
-		$rec = $self->next_record();
-	}
+	my ($low, $mid, $mid2, $high) = (0, 0, 0, (stat($fh))[7]);
+	my $line = undef;
 
-	# Return exact time or closest time
-	if ($rec->{timestamp} == $tstamp) {
-		return $rec;
-	}
+	while ($high != $low) {
+		$mid = int(($high + $low) / 2);
 
-	if (abs($rec->{timestamp} - $tstamp) < (abs($prev_rec->{timestamp} - $tstamp))) {
-		return $rec;
+		seek($fh, $mid, SEEK_SET);
+		
+		# read rest of line in case in middle
+		$line = <$fh>;
+		$mid2 = tell($fh);
+
+		if ($mid2 < $high) {
+			# Not near end of file
+			$mid = $mid2;
+			$line = <$fh>;
+		} else {
+			# At last line so linear search
+			seek($fh, $low, SEEK_SET);
+
+			while ($self->next_record($line)) {
+				last if $self->{record}->{timestamp} >= $tstamp; 
+				$low = tell($fh);
+			}
+			last;
+		}
+		
+		last if !$line;
+
+		$self->next_record($line);
+
+		return $self->{record} if $self->{record}->{timestamp} == $tstamp;
+		
+#		print "Timestamp: $self->{record}->{timestamp}\n";
+		if ($self->{record}->{timestamp} < $tstamp) {
+			$low = $mid;
+		} else {
+			$high = $mid;
+		}
 	}
 	
-	return $prev_rec;
+	# If we fall off end of file return undef
+	if ($line) {
+		$self->next_record($line);
+	} else {
+		$self->{record} = undef;
+	}
+	
+	return $self->next_record();
 }
 
+# Optionally start with line given (e.g from find_time)
 sub next_record {
-	my $self = shift;
+	my ($self, $line) = @_;
 	return undef unless $self->{stream};
 	
 	# Read file until a match with format string is found
 	my $found_string = 0;
 
 	my $fh = $self->{stream};
-	my $line = <$fh>;
+	$line = <$fh> unless $line;
 	my @fs = undef;
 	
 	while (!$found_string && $line) {

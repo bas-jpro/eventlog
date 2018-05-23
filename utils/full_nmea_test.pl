@@ -16,8 +16,7 @@ $data->attach($STREAM);
 
 # Find record at 18:27:11 09/07/2017
 # Should be $AVRTE,170709,182711,00490,CGDT,6.1,194,142,,,,994.85,,4.9,109,,,3.15,13.5,,51.6,41.2,13.6*48
-$data->find_time(1499624831);
-my $rec = $data->next_record();
+my $rec = $data->find_time(1499624831);
 
 if ($rec && $rec->{timestamp}) {
 	print "Found record at $rec->{timestamp}\n";
