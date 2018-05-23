@@ -94,7 +94,7 @@ sub _load_file {
 	$self->{file_start} = $self->_convert_nmea_time();
 	$self->{stream}->blocking(0);
 	
-	print STDERR "Opened $self->{nmea}, in $self->{leg} of $self->{year}, start time: $self->{file_start}\n";	
+#	print STDERR "Opened $self->{nmea}, in $self->{leg} of $self->{year}, start time: $self->{file_start}\n";	
 }
 
 # Convert NMEA file name timestamp to unix seconds
@@ -163,7 +163,7 @@ sub _find_file {
 	# Build filename
 	my $fname = sprintf("nmea_%04d%02d%02d%02d.log", $year, $month, $day, $hour);
 
-	print STDERR "Looking for [$fname]\n";
+#	print STDERR "Looking for [$fname]\n";
 
 	$self->{year} = $year;
 	$self->{leg} = $self->{nmea} = undef;
@@ -208,7 +208,7 @@ sub vars {
 sub find_time {
 	my ($self, $tstamp) = @_;
 
-	print STDERR "Searching for time: [$tstamp]\n";
+#	print STDERR "Searching for time: [$tstamp]\n";
 	
 	# First find oldest file to check if time is before start of data
 	$self->_find_oldest_file();
@@ -222,7 +222,7 @@ sub find_time {
 
 	# Find out if we need to move file
 	if ($tstamp >= $self->{file_start} + 3600) {
-		print STDERR "New file needed\n";
+#		print STDERR "New file needed\n";
 		$self->_find_file($tstamp);
 
 		# return if we didn't find a time
@@ -232,7 +232,27 @@ sub find_time {
 	}
 
 	# Time is current this file
-	print STDERR "Time is in current file\n";
+#	print STDERR "Time is in current file\n";
+
+	# Linear search for time
+	my $rec = $self->next_record();
+	my $prev_rec = undef;
+	
+	while ($rec && ($rec->{timestamp} < $tstamp)) {
+		$prev_rec = $rec;
+		$rec = $self->next_record();
+	}
+
+	# Return exact time or closest time
+	if ($rec->{timestamp} == $tstamp) {
+		return $rec;
+	}
+
+	if (abs($rec->{timestamp} - $tstamp) < (abs($prev_rec->{timestamp} - $tstamp))) {
+		return $rec;
+	}
+	
+	return $prev_rec;
 }
 
 sub next_record {
