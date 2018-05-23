@@ -11,6 +11,7 @@ use strict;
 use File::Basename;
 use IO::File;
 use Time::Local;
+use Scalar::Util qw(looks_like_number);
 
 my $NMEA_DIR = '/data/Full_NMEA';
 my %STREAMS = (
@@ -40,6 +41,22 @@ my %STREAMS = (
 				  { name => 'bv',     units => 'volts' },
 			],
 		convert_time => \&_aavos_time,
+		convert_vals => undef,
+	},
+	'POS-MV-gga' => {
+		stream => 'POS-MV-gga', format => '$INGGA',
+		vars => [ { name => 'time',      units => 'HHMMSS.SSS' },
+				  { name => 'latitude',  units => 'degrees' },
+				  { name => 'longitude', units => 'degrees' },
+				  { name => 'gq',        units => '' },
+				  { name => 'svc',       units => '' },
+				  { name => 'hdop',      units => '' },
+				  { name => 'altitude',  units => 'm' },
+				  { name => 'dage',      units => 's' },
+				  { name => 'dbase',     units => '' },
+			],
+		convert_time => \&_gga_time,
+		convert_vals => \&_gga_vals,
 	},
 	);
 
@@ -341,7 +358,13 @@ sub next_record {
 	
 	# Remove format string
 	shift @fs;
-	$self->{record}->{vals} = \@fs;
+
+	# Convert vals if necessary
+	if ($STREAMS{$self->{name}}->{convert_vals}) {
+		$STREAMS{$self->{name}}->{convert_vals}->($self, \@fs);
+	} else {
+		$self->{record}->{vals} = \@fs;
+	}
 	$STREAMS{$self->{name}}->{convert_time}->($self);
 	
 	return $self->{record};
@@ -369,6 +392,64 @@ sub _aavos_time {
 	#print STDERR "Converting $year, $month, $day, $hour, $min, $sec\n";
 	# Let timegm deal with Y2K issues - could work it out from self->{file_start}
 	$self->{record}->{timestamp} = timegm($sec, $min, $hour, $day, $month-1, $year);
+}
+
+# Convert GGA time into a unix timestamp
+sub _gga_time {
+	my $self = shift;
+
+	# time is field 0, date is from filename
+	my ($year, $month, $day, $hour, $min, $sec) = undef;
+	if ($self->{nmea} =~ /^nmea_(\d{4})(\d{2})(\d{2})/) {
+		($year, $month, $day) = ($1, $2, $3);
+	} else {
+		die basename($0) . ": invalid date string [" . $self->{nmea} . "]\n";
+	}
+
+	if ($self->{record}->{vals}->[0] =~ /^(\d{2})(\d{2})(\d{2})/) {
+		($hour, $min, $sec) = ($1, $2, $3);
+	} else {
+		die basename($0) . ": invalid time string [" . $self->{record}->{vals}->[0] . "]\n";
+	}
+
+	#print STDERR "Converting $year, $month, $day, $hour, $min, $sec\n";
+	$self->{record}->{timestamp} = timegm($sec, $min, $hour, $day, $month-1, $year - 1900);
+}
+
+# Convert GGA fields into vals
+sub _gga_vals {
+	my ($self, $fs) = @_;
+	$self->{record}->{vals} = [];
+	
+	return undef unless $fs;
+
+	# Time
+	push(@{ $self->{record}->{vals} }, $fs->[0]);
+
+	# Lat - fields 1 & 2
+	push(@{ $self->{record}->{vals} }, $self->_convert_latlon($fs, 1));
+
+	# Long - fields 3 & 4
+	push(@{ $self->{record}->{vals} }, $self->_convert_latlon($fs, 3));
+
+	# Remaining fields directly copy
+	foreach my $f ((5, 6, 7, 8, 12, 13)) {
+		push(@{ $self->{record}->{vals} }, $fs->[$f]);
+	}
+}
+
+sub _convert_latlon {
+	my ($self, $fs, $field) = @_;
+
+	my ($gpspos, $dir) = ($fs->[$field], $fs->[$field+1]);
+	$gpspos = 99999 unless (defined($gpspos) && looks_like_number($gpspos));
+
+	$dir    = 'N'   unless $dir;
+		
+	my $deg = int($gpspos / 100);
+	my $min = $gpspos - ($deg * 100);
+	
+	return sprintf("%.5f", (($deg + ($min / 60)) * ((($dir eq 'S') || ($dir eq 'W')) ? -1 : 1)));
 }
 
 1;

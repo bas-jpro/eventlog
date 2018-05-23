@@ -9,8 +9,10 @@ use lib '/users/jpro/prog/bas/eventlog/perl';
 
 use Eventlog::Data::Full_NMEA;
 
-my $STREAM = 'AAVOS';
-my @VARS = qw(ws1 call rwd2);
+#my $STREAM = 'AAVOS';
+#my @VARS = qw(ws1 call rwd2);
+my $STREAM = 'POS-MV-gga';
+my @VARS = qw(time latitude longitude);
 my $data   = Eventlog::Data::Full_NMEA->new();
 
 $data->attach($STREAM);
