@@ -7,10 +7,10 @@
 <span><a href="$G_LOCATION/$G_LEVEL/new_eventlog">Create Log</a></span>
 <br />
 <br />
-<span><a href="http://www.jcr.nerc-bas.ac.uk/docs/logsheets_guide.pdf">User Guide</a></span>
+<!-- <span><a href="http://www.jcr.nerc-bas.ac.uk/docs/logsheets_guide.pdf">User Guide</a></span> -->
 
 <div>
-JCR Eventlogs
-<br />Jeremy Robst
-<br />31/01/2006
+Eventlogs
+<br /><a href="mailto:jpro@bas.ac.uk?subject=Eventlogs">Jeremy Robst</a>
+<br />23/05/2018
 </div>
