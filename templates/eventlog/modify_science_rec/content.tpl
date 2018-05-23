@@ -26,7 +26,7 @@
                                                                                 
 	<div class="row">
 		<div class="row-buttons">
- 			<input type="submit" name="CMD_modify_science_update_time" value="Update SCS Variables" />
+ 			<input type="submit" name="CMD_modify_science_update_time" value="Update Variables" />
 			<input type="submit" name="CMD_modify_science_current_time" value="Set to Current Time" />
 		</div>
 	</div>

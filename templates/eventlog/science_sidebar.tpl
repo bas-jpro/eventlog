@@ -12,7 +12,7 @@
 <span><a href="$G_LOCATION/$G_LEVEL/night_colors">Night Mode</a></span>
 
 <div>
-JCR Sciencelogs
-<br />Jeremy Robst
-<br />31/01/2006
+Sciencelogs
+<br /><a href="mailto:jpro@bas.ac.uk?Subject=Eventlog">Jeremy Robst</a>
+<br />23/05/2018
 </div>
