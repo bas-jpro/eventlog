@@ -31,9 +31,9 @@ use Data::Dumper;
 # Stream name for Built In Stream
 my $BUILTIN    = 'Built In';
 
-my $GPS_STREAM = 'seatex-gll';
-my $GPS_LAT = 'seatex-gll-lat';
-my $GPS_LON = 'seatex-gll-lon';
+my $GPS_STREAM = 'POS-MV-gga';
+my $GPS_LAT = 'latitude';
+my $GPS_LON = 'longitude';
 
 # Eventlog Default Type
 my $DEF_TYPE = 'Full_NMEA';
