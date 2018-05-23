@@ -889,7 +889,7 @@ sub modify_rec_setup {
 	my $c = 0;
 	foreach my $v (@{ $vars->{cols} }) {
 		if ($v->{stream} ne $BUILTIN) {
-			$v->{default} = $eventlog->get_scs_val($v->{stream}, $v->{var}, $vars->{time}) || 
+			$v->{default} = $eventlog->get_data_val($v->{stream}, $v->{var}, $vars->{time}) || 
 				$eventlog->{state}->{modify_rec}->{cols}->[$c] || $rec->{cols}->[$c]->{val} || '';
 		} else {
 			$v->{default} = $eventlog->{state}->{modify_rec}->{cols}->[$c]  || $rec->{cols}->[$c]->{val} || '';
