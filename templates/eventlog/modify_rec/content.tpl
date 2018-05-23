@@ -1,7 +1,7 @@
 <!-- Eventlog Modify Rec Template -->
 <!-- JPRO 26/01/2006              -->
 
-<form action="$G_LOCATION/$G_LEVEL/action" method="post">
+<form action="$G_LOCATION/$G_LEVEL/modify_rec" method="post">
 	<input type="hidden" name="next_page_modify_rec" value="$G_LOCATION/$G_LEVEL/list_recs/$LOGNUM"></input>
 	<input type="hidden" name="next_page_update_time" value="$G_LOCATION/$G_LEVEL/modify_rec/$LOGNUM/$RECNUM"></input>
  	<input type="hidden" name="next_page_remove_rec"  value="$G_LOCATION/$G_LEVEL/list_recs/$LOGNUM"></input>
@@ -39,7 +39,7 @@
 
 	<div class="row">
 		<div class="row-buttons">
-			<input type="submit" name="CMD_update_time" value="Update SCS Variables" />
+			<input type="submit" name="CMD_update_time" value="UpdateVariables" />
 		</div>
 	</div>
 
