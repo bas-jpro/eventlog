@@ -634,8 +634,8 @@ sub get_data_val {
 	my $rec = $eventlog->{data}->next_record();
 	my $start_time = $rec->{timestamp};
 	
-	$rec = $eventlog->{data}->last_record();
-	my $end_time = $rec->{timestamp};
+#	$rec = $eventlog->{data}->last_record();
+#	my $end_time = $rec->{timestamp};
 	
 	# Don't do end time at moment - just pick last time
 	if ($tstamp >= $start_time) {
