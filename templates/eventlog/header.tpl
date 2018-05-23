@@ -8,7 +8,7 @@
                 <base href="http://$G_HOSTNAME/" />
                 <link rel="stylesheet" type="text/css" href="/css/$G_CSS_FILE" />
 				<script src="/js/table-utils.js" type="text/javascript"></script>
-                <title>James Clark Ross Eventlog | $G_ANALYST_USER</title>
+                <title>Eventlog | $G_ANALYST_USER</title>
         </head>
 
         <body onload="oddeven_rows()">
