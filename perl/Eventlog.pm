@@ -196,19 +196,20 @@ sub get_streams {
 	my $eventlog = shift;
 
 	my @streams = $eventlog->{data}->list_streams();
-	my @scs_streams = ();
+	my @data_streams = ();
 
 	foreach (@streams) {
 		$eventlog->{data}->attach($_);
 
-		push(@scs_streams, { stream => $eventlog->{data}->name(), vars => $eventlog->{data}->vars() });
+		print STDERR "Stream [$_]\n";
+		push(@data_streams, { stream => $eventlog->{data}->name(), vars => $eventlog->{data}->vars() });
 
 		$eventlog->{data}->detach();
 	}
 
-	my @ss = sort { $a->{stream} cmp $b->{stream} } @scs_streams;
+	my @ds = sort { $a->{stream} cmp $b->{stream} } @data_streams;
 
-	return \@ss;
+	return \@ds;
 }
 
 sub new_eventlog_setup {
