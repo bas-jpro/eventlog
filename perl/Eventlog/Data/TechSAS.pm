@@ -16,23 +16,17 @@ sub new {
 		techsas => TechSAS->new(),
 	}, $class;
 
-	print STDERR "Eventlog::Data::TechSAS\n";
-	
 	return $self;
 }
 
 sub name {
 	my $self = shift;
 
-	print STDERR "TechSAS::name\n";
-	
 	return $self->{techsas}->name();
 }
 
 sub vars {
 	my $self = shift;
-
-	print STDERR "TechSAS::var\n";
 
 	return $self->{techsas}->vars();
 }
@@ -40,20 +34,18 @@ sub vars {
 sub attach {
 	my ($self, $stream) = @_;
 
-	print STDERR "TechSAS::attach\n";
+	return $self->{techsas}->attach($stream);
 }
 
 sub detach {
 	my ($self, $stream) = @_;
 
-	print STDERR "TechSAS::detach\n";
+	return $self->{techsas}->detach($stream);
 }
 
 sub list_streams {
 	my $self = shift;
 
-	print STDERR "TechSAS::list_streams\n";
-	
 	return $self->{techsas}->list_streams();
 }
 
