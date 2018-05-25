@@ -16,6 +16,8 @@ sub new {
 		techsas => TechSAS->new(),
 	}, $class;
 
+	print STDERR "Eventlog::Data::TechSAS\n";
+	
 	return $self;
 }
 
