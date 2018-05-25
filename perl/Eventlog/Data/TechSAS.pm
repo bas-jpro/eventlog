@@ -29,6 +29,14 @@ sub name {
 	return $self->{techsas}->name();
 }
 
+sub vars {
+	my $self = shift;
+
+	print STDERR "TechSAS::var\n";
+
+	return $self->{techsas}->vars();
+}
+
 sub attach {
 	my ($self, $stream) = @_;
 
