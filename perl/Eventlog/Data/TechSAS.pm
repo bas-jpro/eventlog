@@ -24,7 +24,7 @@ sub new {
 sub name {
 	my $self = shift;
 
-	return $self->{data}->name();
+	return $self->{techsas}->name();
 }
 
 sub attach {
