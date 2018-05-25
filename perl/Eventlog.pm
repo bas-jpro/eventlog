@@ -203,7 +203,7 @@ sub get_streams {
 		$eventlog->{data}->attach($_);
 
 		print STDERR "Stream [$_]\n";
-		push(@data_streams, { stream => $eventlog->{data}->name() }; #, vars => $eventlog->{data}->vars() });
+		push(@data_streams, { stream => $eventlog->{data}->name() }); #, vars => $eventlog->{data}->vars() });
 
 		$eventlog->{data}->detach();
 	}
