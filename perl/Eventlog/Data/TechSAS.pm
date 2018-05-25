@@ -21,6 +21,12 @@ sub new {
 	return $self;
 }
 
+sub name {
+	my $self = shift;
+
+	return $self->{data}->name();
+}
+
 sub attach {
 	my ($self, $stream) = @_;
 
