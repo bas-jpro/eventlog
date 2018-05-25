@@ -198,6 +198,7 @@ sub get_streams {
 	my @streams = $eventlog->{data}->list_streams();
 	my @data_streams = ();
 
+	print STDERR "Found " . scalar(@streams) . " streams\n";
 	foreach (@streams) {
 		$eventlog->{data}->attach($_);
 
