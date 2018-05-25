@@ -53,7 +53,8 @@ sub sciencelog_buttons_setup { }
 sub new {
 	my ($class, $config) = @_;
 
-	my $data_class = "Eventlog::Data::$DEF_TYPE";
+	my $data_type = $config->{locals}->{data_logging}->{type} || $DEF_TYPE;
+	my $data_class = "Eventlog::Data::$data_type";
 	load $data_class;
 
 	my $eventlog = bless {
@@ -62,6 +63,9 @@ sub new {
 		user    => $config->{analyst},
 		state   => $config->{session},
 		data    => $data_class->new(),
+		gps     => $config->{locals}->{data_logging}->{gps} || $GPS_STREAM;
+		gps_lat => $config->{locals}->{data_logging}->{lat} || $GPS_LAT;
+		gps_lon => $config->{locals}->{data_logging}->{lon} || $GPS_LON;
 	}, $class;
 	
 	$eventlog->{log} = Eventlog::Log->new($eventlog->{db});
