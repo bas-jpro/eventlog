@@ -63,9 +63,9 @@ sub new {
 		user    => $config->{analyst},
 		state   => $config->{session},
 		data    => $data_class->new(),
-		gps     => $config->{locals}->{data_logging}->{gps} || $GPS_STREAM;
-		gps_lat => $config->{locals}->{data_logging}->{lat} || $GPS_LAT;
-		gps_lon => $config->{locals}->{data_logging}->{lon} || $GPS_LON;
+		gps     => $config->{locals}->{data_logging}->{gps} || $GPS_STREAM,
+		gps_lat => $config->{locals}->{data_logging}->{lat} || $GPS_LAT,
+		gps_lon => $config->{locals}->{data_logging}->{lon} || $GPS_LON,
 	}, $class;
 	
 	$eventlog->{log} = Eventlog::Log->new($eventlog->{db});
