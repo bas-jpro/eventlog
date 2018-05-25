@@ -36,6 +36,8 @@ sub detach {
 sub list_streams {
 	my $self = shift;
 
+	print STDERR "TechSAS::list_streams\n";
+	
 	return $self->{techsas}->list_streams();
 }
 
