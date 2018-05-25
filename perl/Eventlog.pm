@@ -626,7 +626,7 @@ sub new_event_setup {
 sub get_data_val {
 	my ($eventlog, $stream, $var, $tstamp) = @_;
 
-#	print STDERR "Getting [$stream], [$var], [$tstamp] ";
+	print STDERR "Getting [$stream], [$var], [$tstamp] ";
 	
 	eval { $eventlog->{data}->attach($stream); } or return undef;
 
@@ -645,16 +645,16 @@ sub get_data_val {
 	if ($tstamp >= $start_time) {
 		my ($var_pos) = $eventlog->{data}->get_vars_pos($var);
 
-#		print STDERR "- Vars pos [$var_pos] - ";
+		print STDERR "- Vars pos [$var_pos] - ";
 		$rec = $eventlog->{data}->find_time($tstamp);
-#		$rec = $eventlog->{scs}->next_record();
+		$rec = $eventlog->{scs}->next_record();
 		
 		$v = $rec->{vals}->[$var_pos];
 	} else {
 		$v = undef;
 	}
 
-#	print STDERR "- Found [" . ($v || 'undef') . "]\n";
+	print STDERR "- Found [" . ($v || 'undef') . "]\n";
 	
 	$eventlog->{data}->detach();
 

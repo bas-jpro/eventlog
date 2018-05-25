@@ -21,5 +21,24 @@ sub new {
 	return $self;
 }
 
+sub attach {
+	my ($self, $stream) = @_;
+
+	print STDERR "TechSAS::attach\n";
+}
+
+sub detach {
+	my ($self, $stream) = @_;
+
+	print STDERR "TechSAS::detach\n";
+}
+
+sub list_streams {
+	my $self = shift;
+
+	return $self->{techsas}->list_streams();
+}
+
+
 1;
 __END__
