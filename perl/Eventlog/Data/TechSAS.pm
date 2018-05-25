@@ -24,6 +24,8 @@ sub new {
 sub name {
 	my $self = shift;
 
+	print STDERR "TechSAS::name\n";
+	
 	return $self->{techsas}->name();
 }
 
