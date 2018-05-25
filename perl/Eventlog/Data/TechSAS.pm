@@ -40,7 +40,7 @@ sub attach {
 sub detach {
 	my ($self, $stream) = @_;
 
-	return $self->{techsas}->detach($stream);
+	return $self->{techsas}->detach();
 }
 
 sub list_streams {

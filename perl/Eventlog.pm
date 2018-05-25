@@ -200,7 +200,7 @@ sub get_streams {
 
 	print STDERR "Found " . scalar(@streams) . " streams\n";
 	foreach (@streams) {
-		$eventlog->{data}->attach($_);
+		eval { $eventlog->{data}->attach($_); } or next;
 
 		print STDERR "Stream [$_]\n";
 		push(@data_streams, { stream => $eventlog->{data}->name() }); #, vars => $eventlog->{data}->vars() });

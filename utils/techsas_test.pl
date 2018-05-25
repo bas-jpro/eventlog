@@ -22,9 +22,9 @@ my @ds = ();
 foreach (@ss) {
 	print STDERR "Stream [$_]\n";
 
-	$data->attach($_);
+	eval { $data->attach($_); } or next;
 	push(@ds, { stream => $data->name(), vars => $data->vars() });
-	$data->detach($_);
+	$data->detach();
 }
 
 #$data->attach($STREAM);
