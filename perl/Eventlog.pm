@@ -637,7 +637,7 @@ sub get_data_val {
 	my ($var_pos) = $eventlog->{data}->get_vars_pos($var);
 
 	print STDERR "- Vars pos [$var_pos] - ";
-	$rec = $eventlog->{data}->find_time($tstamp);
+	my $rec = $eventlog->{data}->find_time($tstamp);
 	
 	if ($rec) {
 		$v = $rec->{vals}->[$var_pos];
