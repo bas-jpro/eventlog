@@ -19,8 +19,7 @@ use POSIX qw(strftime);
 use XML::Simple;
 use Data::Dumper;
 
-my $MYSQLDUMP = '/packages/mysql/current/bin/mysqldump';
-my $DATABASE = 'eventlog';
+my $MYSQLDUMP = '/usr/bin/mysqldump';
 
 if (scalar(@ARGV) != 1) {
 	die "Usage: $0 eventlog.xml\n";
@@ -35,7 +34,7 @@ my $cksum;
 my $cksum_previous = 0;
 
 # Backup path
-my $path = "/data/cruise/jcr/current/web/eventlog/";
+my $path = "/users/eventlog/backups/";
 
 # Check if output path exists. If it doesn't create it.
 if(not -e $path) {
