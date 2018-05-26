@@ -634,21 +634,12 @@ sub get_data_val {
 
 	my $v = undef;
 
-	# Make sure time is within stream
-	# Make sure we are at start of stream
-	my $rec = $eventlog->{data}->find_time(0);
-	my $start_time = $rec->{timestamp};
-	
-#	$rec = $eventlog->{data}->last_record();
-#	my $end_time = $rec->{timestamp};
-	
-	# Don't do end time at moment - just pick last time
-	if ($tstamp >= $start_time) {
-		my ($var_pos) = $eventlog->{data}->get_vars_pos($var);
+	my ($var_pos) = $eventlog->{data}->get_vars_pos($var);
 
-		print STDERR "- Vars pos [$var_pos] - ";
-		$rec = $eventlog->{data}->find_time($tstamp);
-		
+	print STDERR "- Vars pos [$var_pos] - ";
+	$rec = $eventlog->{data}->find_time($tstamp);
+	
+	if ($rec) {
 		$v = $rec->{vals}->[$var_pos];
 	} else {
 		$v = undef;

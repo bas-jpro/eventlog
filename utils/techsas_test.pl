@@ -28,7 +28,9 @@ my $data   = Eventlog::Data::TechSAS->new();
 $data->attach($STREAM);
 
 # Find record at 13:07:01 2018/01/09 
-my $rec = $data->find_time(1515503221);
+#my $rec = $data->find_time(1515503221);
+#my $rec = $data->find_time(1527352300);
+my $rec = $data->find_time(1518354421);
 
 if ($rec && $rec->{timestamp}) {
 	print "Found record at $rec->{timestamp}\n";
@@ -36,10 +38,12 @@ if ($rec && $rec->{timestamp}) {
 	print "Could not find a record\n";
 }
 
-my @ps = $data->get_vars_pos(@VARS);
-
-for (my $i=0; $i<scalar(@VARS); $i++) {
-	print "Var: $VARS[$i], val: " . $rec->{vals}->[$ps[$i]] . "\n";
+if ($rec) {
+	my @ps = $data->get_vars_pos(@VARS);
+	
+	for (my $i=0; $i<scalar(@VARS); $i++) {
+		print "Var: $VARS[$i], val: " . $rec->{vals}->[$ps[$i]] . "\n";
+	}
 }
 
 $data->detach();
