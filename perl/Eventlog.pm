@@ -676,32 +676,32 @@ sub add_event {
 }
 
 sub new_science_event_setup { 
-	my ($eventlog, $param_table, $lognum) = @_;
+	my ($self, $param_table, $lognum) = @_;
 
 	# Use current date/time as default unless we have a user set time
-	my $tstamp = $eventlog->{state}->{new_science_event}->{time} || time();
+	my $tstamp = $self->{state}->{new_science_event}->{time} || time();
 
 	# Clear so correct format is set from defaults
-	delete $eventlog->{state}->{new_science_event}->{time};
+	delete $self->{state}->{new_science_event}->{time};
 
 	my @ds = gmtime($tstamp);
 
 	# Force defaults (i.e data vals) to be used
-	delete $eventlog->{state}->{new_science_event}->{lat};
-	delete $eventlog->{state}->{new_science_event}->{lon};
+	delete $self->{state}->{new_science_event}->{lat};
+	delete $self->{state}->{new_science_event}->{lon};
 
 	my $defaults = {
 		time   => sprintf("%04d-%02d-%02d %02d:%02d:%02d", $ds[5]+1900, $ds[4]+1, $ds[3], $ds[2], $ds[1], $ds[0]),
-		lat    => $eventlog->get_data_val($self->{gps}, $self->{gps_lat}, $tstamp) || '',
-		lon    => $eventlog->get_data_val($self->{gps}, $self->{gps_lon}, $tstamp) || '',
+		lat    => $self->get_data_val($self->{gps}, $self->{gps_lat}, $tstamp) || '',
+		lon    => $self->get_data_val($self->{gps}, $self->{gps_lon}, $tstamp) || '',
 		lognum => $lognum,
 	};
 
-	my $vars = $eventlog->form_setup('new_science_event', $param_table, $defaults);	
-	$eventlog->form_error_setup($param_table, $vars);
+	my $vars = $self->form_setup('new_science_event', $param_table, $defaults);	
+	$self->form_error_setup($param_table, $vars);
 
 	# Generate name for CSV download
-	my $info = $eventlog->get_sciencelog_details($lognum);
+	my $info = $self->get_sciencelog_details($lognum);
 	$vars->{filename} = $info->{name} . '.csv';
 	$vars->{filename} =~ s/ /_/g;
 	$vars->{filename} =~ s/\//_/g;
@@ -750,31 +750,31 @@ sub new_science_event {
 }
 
 sub modify_science_rec_setup {
-	my ($eventlog, $param_table, $lognum, $id) = @_;
+	my ($self, $param_table, $lognum, $id) = @_;
 	return unless $lognum && $id;
 
-	my $defaults = $eventlog->{log}->get_rec($lognum, $id, undef, 'science');
+	my $defaults = $self->{log}->get_rec($lognum, $id, undef, 'science');
 
 	# Setup time 
-	my $tstamp = $eventlog->{state}->{modify_science_rec}->{time} || $defaults->{time};
+	my $tstamp = $self->{state}->{modify_science_rec}->{time} || $defaults->{time};
 
 	my @ds = gmtime($tstamp);
 	
 	# Force defaults (i.e scs vals) to be used
-	delete $eventlog->{state}->{modify_science_rec}->{time};
-	delete $eventlog->{state}->{modify_science_rec}->{lat};
-	delete $eventlog->{state}->{modify_science_rec}->{lon};
+	delete $self->{state}->{modify_science_rec}->{time};
+	delete $self->{state}->{modify_science_rec}->{lat};
+	delete $self->{state}->{modify_science_rec}->{lon};
 
 	$defaults->{time}   = sprintf("%04d-%02d-%02d %02d:%02d:%02d", $ds[5]+1900, $ds[4]+1, $ds[3], $ds[2], $ds[1], $ds[0]);
-	$defaults->{lat}    = $eventlog->get_data_val($self->{gps}, $self->{gps_lat}, $tstamp) || $defaults->{lat};
-	$defaults->{lon}    = $eventlog->get_data_val($self->{gps}, $self->{gps_lon}, $tstamp) || $defaults->{lon};
+	$defaults->{lat}    = $self->get_data_val($self->{gps}, $self->{gps_lat}, $tstamp) || $defaults->{lat};
+	$defaults->{lon}    = $self->get_data_val($self->{gps}, $self->{gps_lon}, $tstamp) || $defaults->{lon};
 	$defaults->{lognum} = $lognum;
 
-	my $vars = $eventlog->form_setup('modify_science_rec', $param_table, $defaults);
-	$eventlog->form_error_setup($param_table, $vars);
+	my $vars = $self->form_setup('modify_science_rec', $param_table, $defaults);
+	$self->form_error_setup($param_table, $vars);
 
 	# Generate name for CSV download
-	my $info = $eventlog->get_sciencelog_details($lognum);
+	my $info = $self->get_sciencelog_details($lognum);
 	$vars->{filename} = $info->{name} . '.csv';
 	$vars->{filename} =~ s/ /_/g;
 	$vars->{filename} =~ s/\//_/g;
