@@ -31,6 +31,12 @@ sub vars {
 	return $self->{techsas}->vars();
 }
 
+sub get_vars_pos {
+	my ($self, @varnames) = @_;
+
+	return $self->{techsas}->get_vars_pos(@varnames);
+}
+
 sub attach {
 	my ($self, $stream) = @_;
 
@@ -49,6 +55,11 @@ sub list_streams {
 	return $self->{techsas}->list_streams();
 }
 
+sub find_time {
+	my ($self, $tstamp) = @_;
+
+	return $self->{techsas}->find_time($tstamp);
+}
 
 1;
 __END__

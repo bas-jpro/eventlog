@@ -636,8 +636,7 @@ sub get_data_val {
 
 	# Make sure time is within stream
 	# Make sure we are at start of stream
-	$eventlog->{data}->find_time(0);
-	my $rec = $eventlog->{data}->next_record();
+	my $rec = $eventlog->{data}->find_time(0);
 	my $start_time = $rec->{timestamp};
 	
 #	$rec = $eventlog->{data}->last_record();
@@ -649,7 +648,6 @@ sub get_data_val {
 
 		print STDERR "- Vars pos [$var_pos] - ";
 		$rec = $eventlog->{data}->find_time($tstamp);
-		$rec = $eventlog->{scs}->next_record();
 		
 		$v = $rec->{vals}->[$var_pos];
 	} else {

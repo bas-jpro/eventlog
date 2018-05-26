@@ -254,7 +254,7 @@ sub find_time {
 	$self->_find_oldest_file();
 	$self->_load_file();
 	
-	if ($tstamp <= $self->{file_start}) {
+	if ($tstamp < $self->{file_start}) {
 		# At start of file
 	#	print STDERR "Before start of first file, returning\n";
 		return;
