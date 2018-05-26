@@ -692,8 +692,8 @@ sub new_science_event_setup {
 
 	my $defaults = {
 		time   => sprintf("%04d-%02d-%02d %02d:%02d:%02d", $ds[5]+1900, $ds[4]+1, $ds[3], $ds[2], $ds[1], $ds[0]),
-		lat    => $eventlog->get_data_val($GPS_STREAM, $GPS_LAT, $tstamp) || '',
-		lon    => $eventlog->get_data_val($GPS_STREAM, $GPS_LON, $tstamp) || '',
+		lat    => $eventlog->get_data_val($self->{gps}, $self->{gps_lat}, $tstamp) || '',
+		lon    => $eventlog->get_data_val($self->{gps}, $self->{gps_lon}, $tstamp) || '',
 		lognum => $lognum,
 	};
 
@@ -766,8 +766,8 @@ sub modify_science_rec_setup {
 	delete $eventlog->{state}->{modify_science_rec}->{lon};
 
 	$defaults->{time}   = sprintf("%04d-%02d-%02d %02d:%02d:%02d", $ds[5]+1900, $ds[4]+1, $ds[3], $ds[2], $ds[1], $ds[0]);
-	$defaults->{lat}    = $eventlog->get_data_val($GPS_STREAM, $GPS_LAT, $tstamp) || $defaults->{lat};
-	$defaults->{lon}    = $eventlog->get_data_val($GPS_STREAM, $GPS_LON, $tstamp) || $defaults->{lon};
+	$defaults->{lat}    = $eventlog->get_data_val($self->{gps}, $self->{gps_lat}, $tstamp) || $defaults->{lat};
+	$defaults->{lon}    = $eventlog->get_data_val($self->{gps}, $self->{gps_lon}, $tstamp) || $defaults->{lon};
 	$defaults->{lognum} = $lognum;
 
 	my $vars = $eventlog->form_setup('modify_science_rec', $param_table, $defaults);
