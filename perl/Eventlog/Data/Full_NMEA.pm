@@ -11,6 +11,7 @@ use strict;
 use File::Basename;
 use IO::File;
 use Time::Local;
+use Time::ParseDate;
 use Scalar::Util qw(looks_like_number);
 
 my $NMEA_DIR = '/data/Full_NMEA';
@@ -58,6 +59,19 @@ my %STREAMS = (
 		convert_time => \&_gga_time,
 		convert_vals => \&_gga_vals,
 	},
+	'ANTSG' => {
+		stream => 'ANTSG', format => '$ANTSG',
+		vars => [ { name => 'time',                    units => 'yyyy/mm/dd HH:MM:SS' },
+				  { name => 'sound_velocity_measured', units => 'm/s' },
+				  { name => 'sound_velocity_derived',  units => 'm/s' },
+				  { name => 'tsg_temperature',         units => 'deg C' },
+				  { name => 'hole_temperature',        units => 'deg C' },
+				  { name => 'salinity',                units => 'psu' },
+				  { name => 'fluorescence',            units => 'ug/L' },
+			],
+		convert_time => \&_tsg_time,
+		convert_vals => undef,
+	},				
 	);
 
 sub new {
@@ -392,6 +406,16 @@ sub _aavos_time {
 	#print STDERR "Converting $year, $month, $day, $hour, $min, $sec\n";
 	# Let timegm deal with Y2K issues - could work it out from self->{file_start}
 	$self->{record}->{timestamp} = timegm($sec, $min, $hour, $day, $month-1, $year);
+}
+
+# Convert ANTSG time (yyyy/mm/dd HH:MM:SS) into a unix timestamp
+sub _tsg_time {
+	my $self = shift;
+
+	# time is field 0
+	$self->{record}->{timestamp} = parsedate($self->{record}->{vals}->[0], GMT => 1);
+
+	print STDERR "Converted [" . $self->{record}->{vals}->[0] . "] to " . ($self->{record}->{timestamp} || 'failed' ). "\n";
 }
 
 # Convert GGA time into a unix timestamp

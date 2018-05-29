@@ -11,8 +11,10 @@ use Eventlog::Data::Full_NMEA;
 
 #my $STREAM = 'AAVOS';
 #my @VARS = qw(ws1 call rwd2);
-my $STREAM = 'POS-MV-gga';
-my @VARS = qw(time latitude longitude);
+#my $STREAM = 'POS-MV-gga';
+#my @VARS = qw(time latitude longitude);
+my $STREAM = 'ANTSG';
+my @VARS = qw(time sound_velocity_derived salinity);
 my $data   = Eventlog::Data::Full_NMEA->new();
 
 $data->attach($STREAM);
@@ -25,6 +27,8 @@ if ($rec && $rec->{timestamp}) {
 	print "Found record at $rec->{timestamp}\n";
 } else {
 	print "Could not find a record\n";
+	$data->detach();
+	exit(-1);
 }
 
 my @ps = $data->get_vars_pos(@VARS);
