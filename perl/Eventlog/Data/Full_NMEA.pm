@@ -59,6 +59,21 @@ my %STREAMS = (
 		convert_time => \&_gga_time,
 		convert_vals => \&_gga_vals,
 	},
+	'CNAV-gga' => {
+		stream => 'CNAV-gga', format => '$GPGGA',
+		vars => [ { name => 'time',      units => 'HHMMSS.SSS' },
+				  { name => 'latitude',  units => 'degrees' },
+				  { name => 'longitude', units => 'degrees' },
+				  { name => 'gq',        units => '' },
+				  { name => 'svc',       units => '' },
+				  { name => 'hdop',      units => '' },
+				  { name => 'altitude',  units => 'm' },
+				  { name => 'dage',      units => 's' },
+				  { name => 'dbase',     units => '' },
+			],
+		convert_time => \&_gga_time,
+		convert_vals => \&_gga_vals,
+	},
 	'ANTSG' => {
 		stream => 'ANTSG', format => '$ANTSG',
 		vars => [ { name => 'time',                    units => 'yyyy/mm/dd HH:MM:SS' },
@@ -78,7 +93,7 @@ my %STREAMS = (
 				  { name => 'transductor_depth',        units => 'm' },
 				  { name => 'water_depth',              units => 'm' },
 			],
-		time_stream  => 'POS-MV-gga',              # Use this stream to find timestamp
+		time_stream  => 'CNAV-gga',              # Use this stream to find timestamp
 		convert_vals => \&_multibeam_vals,
 	},
 	);
