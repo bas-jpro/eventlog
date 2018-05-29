@@ -71,7 +71,16 @@ my %STREAMS = (
 			],
 		convert_time => \&_tsg_time,
 		convert_vals => undef,
-	},				
+	},
+	'Multibeam' => {
+		stream => 'Multibeam', format => '$SDDPT',
+		vars => [ { name => 'transductor_bottom_depth', units => 'm' },
+				  { name => 'transductor_depth',        units => 'm' },
+				  { name => 'water_depth',              units => 'm' },
+			],
+		time_stream  => 'POS-MV-gga',              # Use this stream to find timestamp
+		convert_vals => \&_multibeam_vals,
+	},
 	);
 
 sub new {
@@ -333,18 +342,94 @@ sub find_time {
 	
 	# If we fall off end of file return undef
 	if ($line) {
-		$self->next_record($line);
-	} else {
-		$self->{record} = undef;
+		return $self->next_record($line);
 	}
 	
-	return $self->next_record();
+	$self->{record} = undef;
+	return undef;
 }
 
 # Optionally start with line given (e.g from find_time)
 sub next_record {
 	my ($self, $line) = @_;
 	return undef unless $self->{stream};
+
+	# If this is undefined use self->{name}
+	my $time_stream = $STREAMS{$self->{name}}->{time_stream};
+
+	if ($time_stream) {
+		die "Invalid time stream [$time_stream] for " . $self->{name} . "\n" unless $STREAMS{$time_stream};
+	}
+		
+	# Look for next string
+	my ($fs, $found_format) = $self->_read_until_string($STREAMS{$time_stream || $self->{name}}->{format}, $line);
+
+	# Return if we haven't found anything
+	return undef unless $fs;
+		
+	# Convert vals if necessary - from time_stream if we are using, otherwise original stream
+	if ($STREAMS{$time_stream || $self->{name}}->{convert_vals}) {
+		$STREAMS{$time_stream || $self->{name}}->{convert_vals}->($self, $fs);
+	} else {
+		$self->{record}->{vals} = $fs;
+	}
+	$STREAMS{$time_stream || $self->{name}}->{convert_time}->($self);
+
+	# If we are using a time stream now we have to search linearly for data
+	if ($time_stream) {
+		my $done = 0;
+
+		while (!$done) {
+			# Search for next string or time_string
+			($fs, $found_format) = $self->_read_until_string($STREAMS{$self->{name}}->{format}, undef, $STREAMS{$time_stream}->{format});
+
+			# Fell off end of file
+			if (!$fs) {
+				$done = 1;
+				next; 
+			}
+
+			# If time_string update timestamp and try again
+			if ($found_format eq $STREAMS{$time_stream}->{format}) {
+				# May have to convert vals to compute time
+				if ($STREAMS{$time_stream}->{convert_vals}) {
+					$STREAMS{$self->{name}}->{convert_vals}->($self, $fs);
+				} else {
+					$self->{record}->{vals} = $fs;
+				}
+
+				$STREAMS{$time_stream}->{convert_time}->($self);
+
+#				print STDERR "Updating time to " . $self->{record}->{timestamp} . "\n";
+					
+				$done = 0;
+				next;
+			}
+
+			if ($found_format eq $STREAMS{$self->{name}}->{format}) {
+				# Now convert vals if necessary
+				if ($STREAMS{$self->{name}}->{convert_vals}) {
+					$STREAMS{$self->{name}}->{convert_vals}->($self, $fs);
+				} else {
+					$self->{record}->{vals} = $fs;
+				}
+
+				# Actually done - return record
+				return $self->{record};
+			}
+		}
+
+		# Fell off file before finding record
+		return undef;
+	}
+	
+	return $self->{record};
+}
+
+# Read file until we find a string with given format
+sub _read_until_string {
+	my ($self, $format, $line, $time_format) = @_;
+	die "No format\n" unless $format;
 	
 	# Read file until a match with format string is found
 	my $found_string = 0;
@@ -352,14 +437,21 @@ sub next_record {
 	my $fh = $self->{stream};
 	$line = <$fh> unless $line;
 	my @fs = undef;
-	
+
 	while (!$found_string && $line) {
 		if ($line !~ /^\s*$/) {
 			chomp($line);
 			
 			@fs = split(',', $line);
 			
-			if ($fs[0] eq $STREAMS{$self->{name}}->{format}) {
+			if ($fs[0] eq $format) {
+				$found_string = 1;
+				next;
+			}
+
+			# If we found a time_format before the one we search for return that
+			# So caller can update time and try again
+			if ($time_format && ($fs[0] eq $time_format)) {
 				$found_string = 1;
 				next;
 			}
@@ -369,19 +461,11 @@ sub next_record {
 	}
 
 	return undef unless $found_string;
-	
-	# Remove format string
-	shift @fs;
 
-	# Convert vals if necessary
-	if ($STREAMS{$self->{name}}->{convert_vals}) {
-		$STREAMS{$self->{name}}->{convert_vals}->($self, \@fs);
-	} else {
-		$self->{record}->{vals} = \@fs;
-	}
-	$STREAMS{$self->{name}}->{convert_time}->($self);
+	# Remove format
+	my $found_format = shift @fs;
 	
-	return $self->{record};
+	return (\@fs, $found_format);
 }
 
 # Convert AAVOS time into a unix timestamp
@@ -415,7 +499,7 @@ sub _tsg_time {
 	# time is field 0
 	$self->{record}->{timestamp} = parsedate($self->{record}->{vals}->[0], GMT => 1);
 
-	print STDERR "Converted [" . $self->{record}->{vals}->[0] . "] to " . ($self->{record}->{timestamp} || 'failed' ). "\n";
+#	print STDERR "Converted [" . $self->{record}->{vals}->[0] . "] to " . ($self->{record}->{timestamp} || 'failed' ). "\n";
 }
 
 # Convert GGA time into a unix timestamp
@@ -430,14 +514,24 @@ sub _gga_time {
 		die basename($0) . ": invalid date string [" . $self->{nmea} . "]\n";
 	}
 
-	if ($self->{record}->{vals}->[0] =~ /^(\d{2})(\d{2})(\d{2})/) {
+	if ($self->{record}->{vals}->[0] =~ /^(\d{2})(\d{2})(.+)/) {
 		($hour, $min, $sec) = ($1, $2, $3);
 	} else {
 		die basename($0) . ": invalid time string [" . $self->{record}->{vals}->[0] . "]\n";
 	}
 
+	# Second is fractional, so pick nearest second
+	$sec = int($sec + 0.5);
+	my $add_secs = 0;
+	
+	# Need to add a minute once coverted
+	if ($sec >= 60) {
+		$sec -= 60;
+		$add_secs = 60;
+	}
+	
 	#print STDERR "Converting $year, $month, $day, $hour, $min, $sec\n";
-	$self->{record}->{timestamp} = timegm($sec, $min, $hour, $day, $month-1, $year - 1900);
+	$self->{record}->{timestamp} = timegm($sec, $min, $hour, $day, $month-1, $year - 1900) + $add_secs;
 }
 
 # Convert GGA fields into vals
@@ -474,6 +568,19 @@ sub _convert_latlon {
 	my $min = $gpspos - ($deg * 100);
 	
 	return sprintf("%.5f", (($deg + ($min / 60)) * ((($dir eq 'S') || ($dir eq 'W')) ? -1 : 1)));
+}
+
+# Convert multibeam fields into vals
+sub _multibeam_vals {
+	my ($self, $fs) = @_;
+	$self->{record}->{vals} = [];
+
+	return undef unless $fs;
+	
+	# Fields are depth below transducer, transducer depth
+	push(@{ $self->{record}->{vals} }, $fs->[0]);
+	push(@{ $self->{record}->{vals} }, $fs->[1]);
+	push(@{ $self->{record}->{vals} }, $fs->[0] + $fs->[1]);
 }
 
 1;

@@ -11,10 +11,12 @@ use Eventlog::Data::Full_NMEA;
 
 #my $STREAM = 'AAVOS';
 #my @VARS = qw(ws1 call rwd2);
-#my $STREAM = 'POS-MV-gga';
-#my @VARS = qw(time latitude longitude);
-my $STREAM = 'ANTSG';
-my @VARS = qw(time sound_velocity_derived salinity);
+my $STREAM = 'POS-MV-gga';
+my @VARS = qw(time latitude longitude);
+#my $STREAM = 'ANTSG';
+#my @VARS = qw(time sound_velocity_derived salinity);
+#my $STREAM = 'Multibeam';
+#my @VARS   = qw(transductor_bottom_depth transductor_depth water_depth);
 my $data   = Eventlog::Data::Full_NMEA->new();
 
 $data->attach($STREAM);
