@@ -30,7 +30,8 @@ $data->attach($STREAM);
 # Find record at 13:07:01 2018/01/09 
 #my $rec = $data->find_time(1515503221);
 #my $rec = $data->find_time(1527352300);
-my $rec = $data->find_time(1518354421);
+#my $rec = $data->find_time(1518354421);
+my $rec = $data->find_time(1527669000);
 
 if ($rec && $rec->{timestamp}) {
 	print "Found record at $rec->{timestamp}\n";
