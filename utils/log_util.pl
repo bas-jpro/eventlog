@@ -68,7 +68,7 @@ if ($cmd eq 'check_bridgelog') {
 		my $lon = $eventlog->get_data_val($eventlog->{gps}, $eventlog->{gps_lon}, $e->{time}) || '';
 
 		if (($lat ne $e->{lat}) || ($lon ne $e->{lon})) {
-			print "Lat/Lon mismatch - " . $e->{tstamp} . " log is [$e->{lat}, $e->{lon}] vs [$lat, $lon]\n";
+			print "Lat/Lon mismatch - $e->{tstamp} ($e->{time}) log is [$e->{lat}, $e->{lon}] vs [$lat, $lon]\n";
 		}
 	}
 
