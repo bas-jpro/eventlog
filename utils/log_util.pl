@@ -16,7 +16,8 @@ my $CONF = '/data/web/webapps/eventlog/current/data/eventlog.xml';
 my $conf = XMLin($CONF);
 my $db = Apache::Controller::DB->new($conf->{db}->{name}, $conf->{db});
 
-die "Usage: $0 list | del <lognum> | list_col <lognum> | mod_col <lognum> <colnum> <col string> | add_col <lognum> <col string>\n" unless scalar(@ARGV) >= 1;
+die "Usage: $0 list | del <lognum> | list_col <lognum> | mod_col <lognum> <colnum> <col string> | add_col <lognum> <col string> | " .
+	"list_bridge <lognum> | check_bridgelog <lognum>\n" unless scalar(@ARGV) >= 1;
 
 my $cmd = $ARGV[0];
 
@@ -28,6 +29,17 @@ if ($cmd eq 'list') {
 
 	foreach my $l (sort { $a->{lognum} <=> $b->{lognum} } @$ls) {
 		print $l->{lognum} . ': ' . $l->{name} . ' (' . $l->{sciencelog_title} . ")\n";
+	}
+
+	exit(0);
+}
+
+if ($cmd eq 'list_bridge') {
+	# List bridge/science logs
+	my $ls = $log->list('science');
+
+	foreach my $l (sort { $a->{lognum} <=> $b->{lognum} } @$ls) {
+		print $l->{lognum} . ': ' . $l->{name} . ' (' . $l->{title} . ")\n";
 	}
 
 	exit(0);
