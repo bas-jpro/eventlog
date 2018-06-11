@@ -9,6 +9,7 @@ use XML::Simple;
 use lib '/data/web/webapps/controller/current/perl';
 use Apache::Controller::DB;
 use lib '/data/web/webapps/eventlog/current/perl';
+use FormSetup;
 use Eventlog;
 use Eventlog::Log;
 
@@ -63,11 +64,11 @@ if ($cmd eq 'check_bridgelog') {
 	my $eventlog = Eventlog->new({ locals => $conf });
 	my $es = $log->list_log($ARGV[1], undef, 'science');
 	foreach my $e (@$es) {
-		my $lat = $eventlog->get_data_val($eventlog->{gps}, $eventlog->{gps_lat}, $e->{time});
-		my $lon = $eventlog->get_data_val($eventlog->{gps}, $eventlog->{gps_lon}, $e->{time});
+		my $lat = $eventlog->get_data_val($eventlog->{gps}, $eventlog->{gps_lat}, $e->{time}) || '';
+		my $lon = $eventlog->get_data_val($eventlog->{gps}, $eventlog->{gps_lon}, $e->{time}) || '';
 
-		if (($lat != $e->{lat}) || ($lon != $e->{lon})) {
-			print "Lat/Lon mismatch - " $e->{tstamp} . " log is [$e->{lat}, $e->{lon}] vs [$lat, $lon]\n";
+		if (($lat ne $e->{lat}) || ($lon ne $e->{lon})) {
+			print "Lat/Lon mismatch - " . $e->{tstamp} . " log is [$e->{lat}, $e->{lon}] vs [$lat, $lon]\n";
 		}
 	}
 
