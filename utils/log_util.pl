@@ -9,6 +9,7 @@ use XML::Simple;
 use lib '/data/web/webapps/controller/current/perl';
 use Apache::Controller::DB;
 use lib '/data/web/webapps/eventlog/current/perl';
+use Eventlog;
 use Eventlog::Log;
 
 my $CONF = '/data/web/webapps/eventlog/current/data/eventlog.xml';
@@ -59,9 +60,15 @@ if ($cmd eq 'check_bridgelog') {
 		die "Usage: $0 check_bridgelog <lognum>\n";
 	}
 
+	my $eventlog = Eventlog->new({ locals => $conf });
 	my $es = $log->list_log($ARGV[1], undef, 'science');
 	foreach my $e (@$es) {
-		print "Event at " . $e->{tstamp} . "\n";
+		my $lat = $eventlog->get_data_val($eventlog->{gps}, $eventlog->{gps_lat}, $e->{time});
+		my $lon = $eventlog->get_data_val($eventlog->{gps}, $eventlog->{gps_lon}, $e->{time});
+
+		if (($lat != $e->{lat}) || ($lon != $e->{lon})) {
+			print "Lat/Lon mismatch - " $e->{tstamp} . " log is [$e->{lat}, $e->{lon}] vs [$lat, $lon]\n";
+		}
 	}
 
 	exit(0);

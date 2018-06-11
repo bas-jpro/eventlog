@@ -26,7 +26,7 @@ use POSIX qw(strftime);
 use Time::Local;
 use Module::Load;
 
-use Data::Dumper;
+#use Data::Dumper;
 
 # Stream name for Built In Stream
 my $BUILTIN    = 'Built In';
