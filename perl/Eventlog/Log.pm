@@ -420,6 +420,7 @@ sub add_science_rec {
 	my ($log, $ri) = @_;
 	return unless $ri->{lognum};
 
+	print STDERR "Adding time [" . $ri->{time} . "]\n";
 	$log->{db}->prepare("INSERT INTO sciencelog_" . $ri->{lognum} . " VALUES(null, ?, ?, ?, ?, ?, ?)");
 	$log->{db}->execute($ri->{time}, $ri->{analyst}, $ri->{event_no}, $ri->{lat}, $ri->{lon}, $ri->{comment});
 }
