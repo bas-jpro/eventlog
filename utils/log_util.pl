@@ -81,7 +81,7 @@ if (($cmd eq 'check_bridgelog') || ($cmd eq 'fix_bridgelog')) {
 
 				print "Fixing record $e->{id} at time $e->{time}\n";
 				$log->modify_science_rec($e);
-				exit(0);
+#				exit(0);
 			}
 		}
 	}
