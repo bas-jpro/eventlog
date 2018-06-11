@@ -18,7 +18,7 @@ my $db = Apache::Controller::DB->new($conf->{db}->{name}, $conf->{db});
 
 if (scalar(@ARGV) < 1) {
 	print STDERR "Usage: $0 cmd [options]\n";
-	print STDERR "\t where cmd is one of \n";
+	print STDERR "\twhere cmd is one of \n";
 	print STDERR "\tlist | list_bridge\n";
 	print STDERR "\tdel <lognum> | list_col <lognum>\n";
 	print STDERR "\tmod_col <lognum> <colnum> <col string> | add_col <lognum> <col string>\n";
@@ -48,6 +48,20 @@ if ($cmd eq 'list_bridge') {
 
 	foreach my $l (sort { $a->{lognum} <=> $b->{lognum} } @$ls) {
 		print $l->{lognum} . ': ' . $l->{name} . ' (' . $l->{title} . ")\n";
+	}
+
+	exit(0);
+}
+
+# Check positions in bridgelog against data from logging system
+if ($cmd eq 'check_bridgelog') {
+	if (scalar(@ARGV) != 2) {
+		die "Usage: $0 check_bridgelog <lognum>\n";
+	}
+
+	my $es = $log->list_log($ARGV[1], undef, 'science');
+	foreach my $e (@$es) {
+		print "Event at " . $e->{tstamp} . "\n";
 	}
 
 	exit(0);
