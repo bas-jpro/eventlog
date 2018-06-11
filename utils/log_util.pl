@@ -12,6 +12,7 @@ use lib '/data/web/webapps/eventlog/current/perl';
 use FormSetup;
 use Eventlog;
 use Eventlog::Log;
+use POSIX qw(strftime);
 
 my $CONF = '/data/web/webapps/eventlog/current/data/eventlog.xml';
 
@@ -74,12 +75,13 @@ if (($cmd eq 'check_bridgelog') || ($cmd eq 'fix_bridgelog')) {
 
 			if ($cmd eq 'fix_bridgelog') {
 				print "Fixing event at $e->{tstamp} ($e->{time})\n";
-#				$e->{time} = $e->{tstamp};
+				$e->{time} = strftime("%Y-%m-%d %H:%M:%S", gmtime($e->{time}));
 				$e->{lognum} = $ARGV[1];
 				$e->{lat} = $lat;
 				$e->{lon} = $lon;
-				
-				$log->modify_science_rec($e);
+
+				print "Modify time $e->{time}\n";
+#				$log->modify_science_rec($e);
 				exit(0);
 			}
 		}
