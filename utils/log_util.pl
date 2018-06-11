@@ -24,7 +24,7 @@ if (scalar(@ARGV) < 1) {
 	print STDERR "\tlist | list_bridge\n";
 	print STDERR "\tdel <lognum> | list_col <lognum>\n";
 	print STDERR "\tmod_col <lognum> <colnum> <col string> | add_col <lognum> <col string>\n";
-	print STDERR "\tcheck_bridgelog <lognum>\n";
+	print STDERR "\tcheck_bridgelog <lognum> | fix_bridgelog <lognum>\n";
 
 	exit(-1);
 }
@@ -55,10 +55,10 @@ if ($cmd eq 'list_bridge') {
 	exit(0);
 }
 
-# Check positions in bridgelog against data from logging system
-if ($cmd eq 'check_bridgelog') {
+# Check/fix positions in bridgelog against data from logging system
+if (($cmd eq 'check_bridgelog') || ($cmd eq 'fix_bridgelog')) {
 	if (scalar(@ARGV) != 2) {
-		die "Usage: $0 check_bridgelog <lognum>\n";
+		die "Usage: $0 cmd <lognum>\n";
 	}
 
 	my $eventlog = Eventlog->new({ locals => $conf });
@@ -68,7 +68,19 @@ if ($cmd eq 'check_bridgelog') {
 		my $lon = $eventlog->get_data_val($eventlog->{gps}, $eventlog->{gps_lon}, $e->{time}) || '';
 
 		if (($lat ne $e->{lat}) || ($lon ne $e->{lon})) {
-			print "Lat/Lon mismatch - $e->{tstamp} ($e->{time}) log is [$e->{lat}, $e->{lon}] vs [$lat, $lon]\n";
+			if ($cmd eq 'check_bridgelog') {
+				print "Lat/Lon mismatch - $e->{tstamp} ($e->{time}) log is [$e->{lat}, $e->{lon}] vs [$lat, $lon]\n";
+			}
+
+			if ($cmd eq 'fix_bridgelog') {
+				print "Fixing event at $e->{tstamp} ($e->{time})\n";
+				$e->{lognum} = $ARGV[1];
+				$e->{lat} = $lat;
+				$e->{lon} = $lon;
+				
+				$log->modify_science_rec($e);
+				exit(0);
+			}
 		}
 	}
 
