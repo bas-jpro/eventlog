@@ -81,7 +81,7 @@ if (($cmd eq 'check_bridgelog') || ($cmd eq 'fix_bridgelog')) {
 				$e->{lon} = $lon;
 
 				print "Modify time $e->{time}\n";
-#				$log->modify_science_rec($e);
+				$log->modify_science_rec($e);
 				exit(0);
 			}
 		}
