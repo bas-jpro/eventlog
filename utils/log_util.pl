@@ -16,8 +16,16 @@ my $CONF = '/data/web/webapps/eventlog/current/data/eventlog.xml';
 my $conf = XMLin($CONF);
 my $db = Apache::Controller::DB->new($conf->{db}->{name}, $conf->{db});
 
-die "Usage: $0 list | del <lognum> | list_col <lognum> | mod_col <lognum> <colnum> <col string> | add_col <lognum> <col string> | " .
-	"list_bridge <lognum> | check_bridgelog <lognum>\n" unless scalar(@ARGV) >= 1;
+if (scalar(@ARGV) < 1) {
+	print STDERR "Usage: $0 cmd [options]\n";
+	print STDERR "\t where cmd is one of \n";
+	print STDERR "\tlist | list_bridge\n";
+	print STDERR "\tdel <lognum> | list_col <lognum>\n";
+	print STDERR "\tmod_col <lognum> <colnum> <col string> | add_col <lognum> <col string>\n";
+	print STDERR "\tcheck_bridgelog <lognum>\n";
+
+	exit(-1);
+}
 
 my $cmd = $ARGV[0];
 
