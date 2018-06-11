@@ -74,13 +74,12 @@ if (($cmd eq 'check_bridgelog') || ($cmd eq 'fix_bridgelog')) {
 			}
 
 			if ($cmd eq 'fix_bridgelog') {
-				print "Fixing event at $e->{tstamp} ($e->{time})\n";
 				$e->{time} = strftime("%Y-%m-%d %H:%M:%S", gmtime($e->{time}));
 				$e->{lognum} = $ARGV[1];
 				$e->{lat} = $lat;
 				$e->{lon} = $lon;
 
-				print "Modify time $e->{time}\n";
+				print "Fixing record $e->{id} at time $e->{time}\n";
 				$log->modify_science_rec($e);
 				exit(0);
 			}
